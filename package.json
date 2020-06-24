@@ -1,16 +1,39 @@
 {
-  "name": "galleree",
-  "version": "1.0.0",
-  "description": "atles wallpaper galleree",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "web",
-    "firebase",
-    "pictures"
-  ],
-  "author": "atlemagnussen",
-  "license": "ISC"
+    "name": "galleree",
+    "version": "1.0.0",
+    "description": "atles wallpaper galleree",
+    "main": "index.js",
+    "scripts": {
+        "build": "rollup -c",
+        "dev": "rollup -c -w",
+        "start": "sirv publi --port 8000",
+        "deploy": "rollup -c && firebase deploy"
+    },
+    "keywords": [
+        "web",
+        "firebase",
+        "pictures"
+    ],
+    "author": "atlemagnussen",
+    "license": "ISC",
+    "devDependencies": {
+        "@material/button": "^7.0.0",
+        "@material/textfield": "^7.0.0",
+        "@rollup/plugin-commonjs": "^12.0.0",
+        "@rollup/plugin-node-resolve": "^8.0.0",
+        "eslint": "^7.3.1",
+        "eslint-plugin-import": "^2.21.2",
+        "eslint-plugin-svelte3": "^2.7.3",
+        "prettier": "^2.0.5",
+        "prettier-plugin-svelte": "^1.1.0",
+        "rollup": "^2.3.4",
+        "rollup-plugin-livereload": "^1.0.0",
+        "rollup-plugin-serve": "^1.0.1",
+        "rollup-plugin-svelte": "^5.0.3",
+        "rollup-plugin-terser": "^5.1.2",
+        "svelte": "^3.23.0"
+    },
+    "dependencies": {
+        "sirv-cli": "^0.4.4"
+    }
 }

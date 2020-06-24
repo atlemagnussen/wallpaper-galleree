@@ -1,0 +1,79 @@
+a {
+	color: rgb(0,100,200);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: rgb(0,80,160);
+}
+
+label {
+	display: block;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+
+input:disabled {
+	color: #ccc;
+}
+
+input[type="range"] {
+	height: 0;
+}
+
+button {
+	color: #333;
+	background-color: #f4f4f4;
+	outline: none;
+}
+
+button:disabled {
+	color: #999;
+}
+
+button:not(:disabled):active {
+	background-color: #ddd;
+}
+
+button:focus {
+	border-color: #666;
+}
+
+.flex {
+	display: flex;
+}
+.column {
+	flex-direction: column;
+}
+
+label.mdc-text-field.exercise-name {
+	flex-basis: 80%;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+label.mdc-text-field.exercise-sets, label.mdc-text-field.exercise-reps {
+	flex-basis: 10%;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+@media only screen and (max-width: 640px) {
+	label.mdc-text-field {
+		padding: 0 4px;
+	}
+	label.mdc-text-field--textarea textarea.mdc-text-field__input {
+		padding: 0 4px;
+	}
+}
