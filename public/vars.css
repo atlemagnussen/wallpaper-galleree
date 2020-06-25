@@ -1,0 +1,79 @@
+:root {
+    /* color defs */
+    --blue: #4590e6;
+    --blue-sky: #76c3ed;
+    --blue-moon: #9dc4e7;
+    --blue-sky-light: #acd3ef;
+    --blue-sky-lighter: #d1e9f8;
+    --blue: #1c93d3;
+    --blue-alt: #2095d5;
+    --blue-light: #58b2e3;
+    --blue-sharp: #0099de;
+    --blue-trans: rgba(69, 144, 230, 0.9);
+    
+    --white-trans: rgba(255, 255, 255, 0.8);
+    --white-very-trans: rgba(255, 255, 255, 0.1);
+    --red-trans: rgba(248, 3, 3, 0.7);
+    --red-dark-light: rgb(56, 32, 32);
+    --red-dark: rgb(73, 11, 11);
+
+    --grey-light: #f0f0f0;
+    --grey-trans: rgba(240, 240, 240, 0.7);
+    --grey: #bdbdbd;
+    --grey-dark: #333;
+
+    --purple-main: rgba(44, 38, 48, 0.9);
+    --purple-light: rgba(102, 51, 153, 0.6);
+    --purple-hover: rgba(145, 60, 140, 0.4);
+
+    --magenta: rgb(255, 0, 255);
+    --magenta-dark: rgb(139, 0, 139);
+
+    --cyan: rgb(0, 255, 255);
+    --cyan-dark: rgb(0, 139, 139);
+    --cyan-hover: rgba(0, 139, 139, 0.5);
+
+    --red: #e57373;
+    --red-main: rgb(139, 0, 0);
+    --red-light: rgb(195, 20, 20, 0.5);
+    --red-extra-light: rgb(195, 20, 20, 0.2);
+    --red-strong: rgb(195, 20, 20);
+    --red-hover: rgb(120, 0, 0, 0.2);
+
+    --green-light: #9ccc65;
+    --green: #bbdf95;
+    --green-main: rgb(0, 255, 0);
+    --green-dark: rgb(34, 139, 34);
+    --green-extra-dark: rgb(0, 100, 0);
+
+    --cardinal: rgb(196, 30, 58);
+    --cardinal-blue: rgb(196, 30, 90);
+    --cardinal-hover: rgb(196, 30, 90, 0.3);
+
+    --deep-orange-light: #ffab91;
+
+    --brown: #bcaaa4;
+
+    --blue-grey: #b0bec5;
+
+    /* define vars to use in app */
+    --main-color: var(--cyan-dark);
+    --secondary-color: var(--green-light);
+    --third-color: var(--blue-grey);
+
+    --main-text: var(--grey-dark);
+    --secondary-text: var(--white-light);
+
+    --warning-color: var(--red);
+    --background-color: var(--grey-light);
+    --light-color: var(--red-light);
+    --hover-color: var(--cyan-hover);
+    --selected-color: var(--cardinal-hover);
+    --toggled-color: var(--red-extra-light);
+
+    --h1-color: var(--cyan-dark);
+    --h2-color: white;
+    --h3-color: white;
+    --a-underline-color: var(--cyan-dark);
+    --a-hover-color: var(--cyan);
+}

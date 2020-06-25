@@ -46,9 +46,8 @@
     <header>
         <nav>
             <Link page="{{ path: '/', name: 'Home' }}">
-                <div class="logo">TRQ</div>
+                <div class="logo">GAL</div>
             </Link>
-            <Link page="{{ path: '/plans', name: 'Plans' }}" color="white" />
             <Link page="{{ path: '/googlefit', name: 'Fit' }}" color="white" />
         </nav>
         <Login />
