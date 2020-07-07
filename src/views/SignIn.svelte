@@ -2,8 +2,6 @@
     import { userIsLoggedIn, curRoute } from "../store";
     import auth from "../services/authentication.js";
     import Link from "../components/Link.svelte";
-    import MButton from "../components/MButton.svelte";
-    import MTextField from "../components/MTextField.svelte";
     import GoogleLoginButton from "../components/GoogleLoginButton.svelte";
 
     let email, pass, msg = "";
@@ -66,9 +64,9 @@
             </p>
             <form>
                 <p>{msg}</p>
-                <MTextField bind:value="{email}" label="Email" />
-                <MTextField bind:value="{pass}" label="Passord" />
-                <MButton icon="login" on:click="{loginEmail}">Log in</MButton>
+                <input bind:value="{email}" label="Email" />
+                <input bind:value="{pass}" label="Passord" />
+                <button icon="login" on:click="{loginEmail}">Log in</button>
             </form>
             <p>
                 <a href="#" on:click={forgotPassword}>Forgot password?</a>

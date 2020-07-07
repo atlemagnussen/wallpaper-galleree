@@ -6,7 +6,7 @@
     "scripts": {
         "build": "rollup -c",
         "dev": "rollup -c -w",
-        "start": "sirv publi --port 8000",
+        "start": "sirv public --port 8000",
         "deploy": "rollup -c && firebase deploy"
     },
     "keywords": [
@@ -22,7 +22,6 @@
         "eslint": "^7.3.1",
         "eslint-plugin-import": "^2.21.2",
         "eslint-plugin-svelte3": "^2.7.3",
-        "material-components-web": "^7.0.0",
         "prettier": "^2.0.5",
         "prettier-plugin-svelte": "^1.1.0",
         "rollup": "^2.3.4",

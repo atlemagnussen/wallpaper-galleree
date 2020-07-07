@@ -1,6 +1,4 @@
 <script>
-    import MButton from "../components/MButton.svelte";
-    import MTextField from "../components/MTextField.svelte";
     let email, pass;
     let regged = false;
     let message = "...";
@@ -47,9 +45,9 @@
             <h2>Registrer deg</h2>
 
             <form>
-                <MTextField bind:value="{email}" label="Email" />
-                <MTextField bind:value="{pass}" label="Password" />
-                <MButton icon="send" on:click="{regEmail}">Register</MButton>
+                <input bind:value="{email}" label="Email" />
+                <input bind:value="{pass}" label="Password" />
+                <button icon="send" on:click="{regEmail}">Register</button>
             </form>
         </div>
     {/if}

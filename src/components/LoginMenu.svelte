@@ -2,7 +2,6 @@
     import { onMount, onDestroy } from "svelte";
     import Circle from "./Circle.svelte";
     import PopDown from "./PopDown.svelte";
-    import MButton from "./MButton.svelte";
     import { userIsLoggedIn, userProfile } from "../store";
     import Link from "../components/Link.svelte";
 
@@ -38,11 +37,11 @@
                     {@html usernameOrEmail}
                 </div>
                 <Link page="{{ path: '/account', name: 'Konto' }}" />
-                <MButton icon="login" on:click={logOut}>Log out</MButton>
+                <button icon="login" on:click={logOut}>Log out</button>
             </div>
         </PopDown>
     {:else}
-        <Link page="{{ path: '/signin', name: 'Log in/Register' }}" color="white" />
+        <Link page="{{ path: '/signin', name: 'Log in/Register'}}" icon="login" color="white" />
     {/if}
 
 </div>

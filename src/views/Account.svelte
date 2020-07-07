@@ -41,7 +41,7 @@
     <h3>Userprofile for {$userProfile.email}</h3>
     <form>
         <label>Name</label>
-        <input bind:value="{name}" placeholder="Navn" />
+        <input bind:value="{name}" placeholder="Name" />
         <br />
         <button on:click|preventDefault="{updateUserProfile}">Lagre</button>
     </form>

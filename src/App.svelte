@@ -48,7 +48,6 @@
             <Link page="{{ path: '/', name: 'Home' }}">
                 <div class="logo">GAL</div>
             </Link>
-            <Link page="{{ path: '/googlefit', name: 'Fit' }}" color="white" />
         </nav>
         <Login />
     </header>
