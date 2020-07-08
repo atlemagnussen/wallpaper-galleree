@@ -40,7 +40,7 @@ export const routes = [
     },
     {
         path: "signin",
-        name: "Logginn",
+        name: "Sign in",
         component: SignIn,
     },
     {

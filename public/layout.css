@@ -17,7 +17,7 @@ body {
 }
 
 header {
-    background: var(--background2);
+    background: var(--mdc-theme-secondary);
     display: flex;
     padding: 1rem;
     justify-content: space-between;
