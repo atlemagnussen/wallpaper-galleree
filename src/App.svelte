@@ -1,12 +1,13 @@
 <script>
     export let name;
-    import { curRoute, curSearchParam, docTitle, isSpinning } from "./store";
+    import { curRoute, curSearchParam, docTitle, isSpinning, isDarkTheme } from "./store";
     curSearchParam.set(window.location.search);
     docTitle.set(name);
     import "./services/pagestate.js";
     import "./services/userprofile.js";
     import Link from "./components/Link.svelte";
     import Login from "./components/LoginMenu.svelte";
+    import ThemeToggle from "./components/ThemeToggle.svelte";
     import Spinner from "./components/Spinner.svelte";
     import Container from "./Container.svelte";
     import { onMount } from "svelte";
@@ -42,16 +43,20 @@
 </style>
 <svelte:window on:popstate="{handlerBackNavigation}" />
 <Spinner />
-<main>
-    <header>
-        <nav>
-            <Link page="{{ path: '/', name: 'Home' }}">
-                <div class="logo">GAL</div>
-            </Link>
-        </nav>
-        <Login />
-    </header>
-    
-    <Container />
-    
-</main>
+<body class:dark-theme="{$isDarkTheme}">
+    <main>
+        <header>
+            <nav>
+                <Link page="{{ path: '/', name: 'Home' }}">
+                    <div class="logo">GAL</div>
+                </Link>
+            </nav>
+            <ThemeToggle />
+            <Login />
+        </header>
+        
+        <Container />
+        
+    </main>
+</body>
+

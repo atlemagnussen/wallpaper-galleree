@@ -36,3 +36,21 @@ const createGettableAppendableWriteableStore = (initialVal) => {
     return { subscribe, set: newSet, update, get, append };
 };
 export const curRoute = createGettableAppendableWriteableStore("");
+
+
+const createGettableTogglableWriteableStore = (initialVal) => {
+    let val = initialVal;
+    const { subscribe, set, update } = writable(val);
+    var newSet = (newVal) => {
+        val = newVal;
+        return set(val);
+    };
+    const get = () => val;
+    const toggle = () => {
+        val = !val;
+        return set(val);
+    };
+    return { subscribe, set: newSet, update, get, toggle };
+};
+
+export const isDarkTheme = createGettableTogglableWriteableStore(false);

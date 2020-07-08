@@ -11,7 +11,7 @@
 <style>
     a {
         padding: 1rem;
-        color: var(--secondary-text);
+        color: var(--mdc-theme-surface);
     }
 </style>
 
