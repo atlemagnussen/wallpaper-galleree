@@ -18,6 +18,12 @@
             window.history.replaceState({ path: window.location.pathname }, "", window.location.href);
         }
         isSpinning.set(false);
+        isDarkTheme.subscribe(val => {
+            if (val)
+                document.body.classList.add("dark-theme")
+            else
+                document.body.classList.remove("dark-theme");
+        })
     });
     const handlerBackNavigation = (event) => {
         curRoute.set(event.state.path);
@@ -34,7 +40,6 @@
         text-align: center;
         display: inline-block;
         color: var(--main-color);
-        background: white;
     }
     nav {
         display: block;
@@ -42,21 +47,23 @@
     }
 </style>
 <svelte:window on:popstate="{handlerBackNavigation}" />
+<svelte:body class:dark-theme="{$isDarkTheme}" />
+
 <Spinner />
-<body class:dark-theme="{$isDarkTheme}">
-    <main>
-        <header>
-            <nav>
-                <Link page="{{ path: '/', name: 'Home' }}">
-                    <div class="logo">GAL</div>
-                </Link>
-            </nav>
-            <ThemeToggle />
-            <Login />
-        </header>
+
+<main>
+    <header>
+        <nav>
+            <Link page="{{ path: '/', name: 'Home' }}">
+                <div class="logo">GAL</div>
+            </Link>
+        </nav>
+        <ThemeToggle />
+        <Login />
+    </header>
+    
+    <Container />
         
-        <Container />
-        
-    </main>
-</body>
+</main>
+
 

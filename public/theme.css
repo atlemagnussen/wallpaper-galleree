@@ -27,6 +27,7 @@
 }
 .dark-theme {
    --mdc-theme-primary: #6200ee;
-   --mdc-theme-secondary: #018786;
+   --mdc-theme-secondary: var(--blue-grey-500);
    --mdc-theme-background: #000;
+   --mdc-theme-surface: #fff;
 }

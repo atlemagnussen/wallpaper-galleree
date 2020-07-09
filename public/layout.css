@@ -19,8 +19,9 @@ body {
 header {
     background: var(--mdc-theme-secondary);
     display: flex;
-    padding: 1rem;
+    padding: 0.2rem;
     justify-content: space-between;
+    vertical-align: middle;
 }
 main {
     width: 70%;
