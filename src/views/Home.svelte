@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import Link from "../components/Link.svelte";
     import { userProfile, galleriesStore } from "../store";
-    import * as service from "../services/galreeService.js";
+    import service from "../services/galreeService.js";
     let galrees = [];
     userProfile.subscribe(async (val) => {
         if (val)

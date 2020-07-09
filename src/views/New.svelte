@@ -1,5 +1,5 @@
 <script>
-    import * as service from "../services/galreeService.js";
+    import service from "../services/galreeService.js";
     let newGalName;
 
     const addNew = async () => {

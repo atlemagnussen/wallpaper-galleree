@@ -1,8 +1,9 @@
 class PathBreaker {
     getRoute(p) {
         let route = {
-            name: "/",
-            param: ""
+            path: "/",
+            param: "",
+            action: ""
         };
         if (p === "/") {
             return route;
@@ -12,14 +13,14 @@ class PathBreaker {
         if (slashes.length === 0) {
             return route;
         } else if (slashes.length === 1) {
-            route.name = p.replace("/", "");
+            route.path = p.replace("/", "");
             return route;
         }
 
         let pathSplit = p.split("/");
 
         pathSplit = this.clearEmptyElementsInArray(pathSplit);
-        route.name = `${pathSplit.splice(0, 1)}`;
+        route.path = `${pathSplit.splice(0, 1)}`;
         route.param = `${pathSplit.splice(0, 1)}`;
         if (slashes.length === 3) {
             route.action = `${pathSplit.splice(0, 1)}`;

@@ -2,12 +2,11 @@
     import { onDestroy } from "svelte";
     import { curRoute } from "./store";
     import * as routes from "./routes";
-    import pathBreaker from "./services/pathBreaker.js";
 
     let routeName, component, param, action;
 
     const unsubscribe = curRoute.subscribe(async value => {
-        var route = pathBreaker.getRoute(value);
+        const route = routes.findRoute(value);
         component = await routes.findComponent(route.name);
         param = route.param;
         action = route.action
