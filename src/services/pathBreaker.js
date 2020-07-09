@@ -5,7 +5,7 @@ class PathBreaker {
             param: "",
             action: ""
         };
-        if (p === "/") {
+        if (!p || p === "/") {
             return route;
         }
         const slashes = p.match(/\//ig) || [];
