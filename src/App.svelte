@@ -1,6 +1,6 @@
 <script>
     export let name;
-    import { curRoute, curSearchParam, docTitle, isSpinning, isDarkTheme } from "./store";
+    import { curRoute, curSearchParam, docTitle, isSpinning, isDarkTheme, userIsLoggedIn } from "./store";
     curSearchParam.set(window.location.search);
     docTitle.set(name);
     import "./services/pagestate.js";
@@ -45,6 +45,9 @@
         display: block;
         user-select: none;
     }
+    header {
+        padding: 0 0.5rem;
+    }
 </style>
 <svelte:window on:popstate="{handlerBackNavigation}" />
 <svelte:body class:dark-theme="{$isDarkTheme}" />
@@ -57,6 +60,9 @@
             <Link page="{{ path: '/', name: 'Home' }}">
                 <div class="logo">GAL</div>
             </Link>
+            {#if $userIsLoggedIn}
+                <Link page="{{ path: '/new', name: 'New gallaree'}}" icon="create_new_folder" color="white" />
+            {/if}
         </nav>
         <ThemeToggle />
         <Login />

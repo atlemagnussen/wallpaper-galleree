@@ -4,7 +4,9 @@
 .column {
 	flex-direction: column;
 }
-
+a {
+	color: var(--mdc-theme-text-primary-on-background);
+}
 label.mdc-text-field.exercise-name {
 	flex-basis: 80%;
 	flex-grow: 1;

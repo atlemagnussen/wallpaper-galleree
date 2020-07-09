@@ -2,8 +2,6 @@ import { writable } from "svelte/store";
 
 export const docTitle = writable("");
 
-export const userIsLoggedIn = writable(false);
-
 export const curSearchParam = writable("");
 
 export const plansStore = writable([]);
@@ -20,7 +18,9 @@ const createGettableWritableStore = (initialVal) => {
     };
     return { subscribe, set: newSet, update, get };
 };
+export const userIsLoggedIn = createGettableWritableStore(false);
 export const userProfile = createGettableWritableStore({ loggedIn: false, name: "Anon", initials: "U" });
+export const galleriesStore = createGettableWritableStore([]);
 
 const createGettableAppendableWriteableStore = (initialVal) => {
     let val = initialVal;

@@ -5,6 +5,8 @@ import SignUp from "../views/SignUp.svelte";
 import Account from "../views/Account.svelte";
 import NotFound from "../views/404.svelte";
 
+import New from "../views/New.svelte";
+
 export const findComponent = (path) => {
     const r = findRoute(path);
     return r.component;
@@ -52,5 +54,10 @@ export const routes = [
         path: "account",
         name: "Account",
         component: Account
+    },
+    {
+        path: "new",
+        name: "New gallery",
+        component: New
     }
 ];

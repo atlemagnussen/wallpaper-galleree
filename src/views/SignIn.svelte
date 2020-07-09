@@ -64,8 +64,8 @@
             </p>
             <form>
                 <p>{msg}</p>
-                <input bind:value="{email}" label="Email" />
-                <input bind:value="{pass}" label="Passord" />
+                <input bind:value="{email}" placeholder="Email" />
+                <input bind:value="{pass}" placeholder="Password" />
                 <button icon="login" on:click="{loginEmail}">Log in</button>
             </form>
             <p>

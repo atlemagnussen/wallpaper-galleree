@@ -23,7 +23,11 @@
 </script>
 
 <style>
-
+    div {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 </style>
 
 <div>

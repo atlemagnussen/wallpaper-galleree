@@ -10,8 +10,7 @@
 
 <style>
     a {
-        padding: 1rem;
-        color: var(--mdc-theme-surface);
+        color: var(--mdc-theme-text-primary-on-background);
     }
 </style>
 
