@@ -6,20 +6,30 @@ import Account from "../views/Account.svelte";
 import NotFound from "../views/404.svelte";
 
 import New from "../views/New.svelte";
+import Galree from "../views/Galree.svelte";
 
-export const findComponent = (path) => {
-    const r = findRoute(path);
+import * as service from "../services/galreeService";
+export const findComponent = async (path) => {
+    const r = await findRoute(path);
     return r.component;
 };
 
-export const findRoute = (path) => {
+export const findRoute = async (path) => {
     const r = routes.filter(r => r.path === path);
     if (!r || r.length === 0) {
+        const gal = await service.find(path);
+        if (gal)
+            return galComp;
         const nf404 = notFound(path);
         return nf404;
     }
         
     return r[0];
+};
+const galComp = {
+    path: "galree",
+    name: "Gallery",
+    component: Galree
 };
 
 const notFound = (path) => {

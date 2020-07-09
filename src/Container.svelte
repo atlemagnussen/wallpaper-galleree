@@ -6,9 +6,9 @@
 
     let routeName, component, param, action;
 
-    const unsubscribe = curRoute.subscribe(value => {
+    const unsubscribe = curRoute.subscribe(async value => {
         var route = pathBreaker.getRoute(value);
-        component = routes.findComponent(route.name);
+        component = await routes.findComponent(route.name);
         param = route.param;
         action = route.action
     });

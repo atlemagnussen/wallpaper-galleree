@@ -25,3 +25,11 @@ export const all = async () => {
     }
     return galleries;
 };
+
+export const find = async (id) => {
+    const all = await all();
+    if (all.length === 0)
+        return null;
+    const gal = all.find(g => g._id === id);
+    return gal;
+};
