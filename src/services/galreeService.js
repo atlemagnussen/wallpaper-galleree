@@ -37,6 +37,37 @@ const find = async (id) => {
     return gal;
 };
 
+const addpictureToGalree = async (id, filename) => {
+    const gal = await find(id);
+    if (!gal.files || !Array.isArray(gal.files))
+        gal.files = [];
+    gal.files.push(filename);
+
+    await crud.createOrUpdate(collName, gal);
+    const galleries = galleriesStore.get();
+    // const planOrg = plans.find(p => p._id === plan._id);
+    // Object.assign(planOrg, plan); // merge
+    return gal;
+};
+
+const getFilesWithUrls = async (id) => {
+    const gal = await find(id);
+    if (!gal) return [];
+    const urls = await loadFilesUrls(gal.files);
+    return urls;
+};
+
+const loadFilesUrls = async (files) => {
+    const promises = files.map(async filename => {
+        const url = await getFileUrl(filename);
+        return {
+            filename, url
+        };
+    });
+    const res = Promise.all(promises);
+    return res;
+};
+
 const getFileUrl = async (id) => {
 
     const isLoggedIn = userIsLoggedIn.get();
@@ -50,19 +81,19 @@ const getFileUrl = async (id) => {
     return null;
 };
 
-const uploadFile = async (id, file) => {
+const uploadFile = async (id, filename, file) => {
 
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
         const user = auth.getCurrentUser();
-        const path = `${user.uid}/${id}`;
+        const path = `${user.uid}/${filename}`;
         const res = await storage.upload(path, file);
-        
-        return res;
+        const gal = await addpictureToGalree(id, filename);
+        return gal;
     }
     return null;
 };
 
 export default {
-    create, all, find, getFileUrl, uploadFile
+    create, all, find, getFileUrl, uploadFile, getFilesWithUrls
 };

@@ -1,13 +1,14 @@
 <script>
     export let param;
     import service from "../services/galreeService.js";
-
+    import { onMount } from "svelte";
     let fileInput;
     let files = ["atle-2020.jpg", "atle-2020-g.jpg"];
     const upload = async () => {
         try {
             const file = fileInput.files[0];
-            const res = await service.uploadFile(file.name, file);
+            const res = await service.uploadFile(param, file.name, file);
+            loadFiles();
             console.log(res);
         } catch(ex) {
             console.log(ex.message);
@@ -15,13 +16,14 @@
     };
 
     let filesUrl = [];
-    const loadFilesUrls = async () => {
-        return Promise.all(files.map(f => service.getFileUrl(f)));
-    };
+    
     const loadFiles = async () => {
-        const res = await loadFilesUrls();
+        const res = await service.getFilesWithUrls(param);
         filesUrl = res;
     }
+    onMount(() => {
+        loadFiles();
+    });
 </script>
 
 <style>
@@ -41,6 +43,6 @@
     <button on:click={loadFiles}>Load</button>
 </p>
 
-{#each filesUrl as url, i}
-    <img alt={files[i]} src="{url}" />
+{#each filesUrl as { filename, url }, i}
+    <img alt={filename} src="{url}" />
 {/each}
