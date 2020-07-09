@@ -21,58 +21,59 @@ export const findRoute = async (fullpath) => {
     if (!route || route.length === 0) {
         const gal = await service.find(bRoute.path);
         if (gal)
-            return galComp(bRoute.path);
-        const nf404 = notFound(bRoute.path);
+            return galComp(bRoute.path, bRoute.param);
+        const nf404 = notFound(fullpath);
         return nf404;
     }
         
-    return route[0];
+    const r = route[0];
+    return {
+        path: r.path,
+        component: r.component,
+        param: bRoute.param,
+        action: bRoute.action
+    };
 };
-const galComp = (id) => {
+
+const galComp = (param, action) => {
     return {
         path: "galree",
-        param: id,
-        name: "Gallery",
-        component: Galree
+        component: Galree,
+        param,
+        action
     };
 };
 
 const notFound = (path) => {
     return {
         path, 
-        name: "Not Found",
         component: NotFound
     };
 };
-export const routes = [
+
+const routes = [
     {
         path: "/",
-        name: "Home",
         component: Home,
     },
     {
         path: "about",
-        name: "About",
         component: About,
     },
     {
         path: "signin",
-        name: "Sign in",
         component: SignIn,
     },
     {
         path: "signup",
-        name: "Reg",
         component: SignUp,
     },
     {
         path: "account",
-        name: "Account",
         component: Account
     },
     {
         path: "new",
-        name: "New gallery",
         component: New
     }
 ];

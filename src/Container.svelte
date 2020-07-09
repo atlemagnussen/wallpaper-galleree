@@ -3,13 +3,13 @@
     import { curRoute } from "./store";
     import * as routes from "./routes";
 
-    let routeName, component, param, action;
+    let component, param, action;
 
     const unsubscribe = curRoute.subscribe(async value => {
-        const route = routes.findRoute(value);
-        component = await routes.findComponent(route.name);
+        const route = await routes.findRoute(value);
+        component = route.component;
         param = route.param;
-        action = route.action
+        action = route.action;
     });
 
     onDestroy(unsubscribe);

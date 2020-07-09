@@ -1,5 +1,5 @@
 <script>
-    export let id;
+    export let param;
 </script>
 
-<p>Galree id {id}</p>
+<p>Galree id {param}</p>
