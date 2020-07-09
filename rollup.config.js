@@ -3,6 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
+import serve from "rollup-plugin-serve";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -16,21 +17,27 @@ export default {
     },
     plugins: [
         svelte({
-            
+
             dev: !production,
-            
+
             css: css => {
                 css.write("public/build/bundle.css");
             }
         }),
+
         resolve({
             browser: true,
             dedupe: ["svelte"]
         }),
         commonjs(),
 
-        !production && serve(),
-
+        !production && serve({
+            contentBase: "public",
+            host: "localhost",
+            port: 8000,
+            historyApiFallback: true,
+        }),
+        
         !production && livereload("public"),
 
         production && terser()
@@ -39,20 +46,3 @@ export default {
         clearScreen: false
     }
 };
-
-function serve() {
-    let started = false;
-
-    return {
-        writeBundle() {
-            if (!started) {
-                started = true;
-
-                require("child_process").spawn("npm", ["run", "start", "--", "--dev"], {
-                    stdio: ["ignore", "inherit", "inherit"],
-                    shell: true
-                });
-            }
-        }
-    };
-}

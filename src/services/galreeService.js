@@ -54,11 +54,11 @@ const uploadFile = async (id, file) => {
 
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
-    
         const user = auth.getCurrentUser();
         const path = `${user.uid}/${id}`;
-        const url = await storage.upload(path, file);
-        return url;
+        const res = await storage.upload(path, file);
+        
+        return res;
     }
     return null;
 };
