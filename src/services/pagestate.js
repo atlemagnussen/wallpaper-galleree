@@ -1,6 +1,5 @@
 import { docTitle, curRoute } from "../store";
 import * as routes from "../routes";
-import pathBreaker from "./pathBreaker.js";
 let rootTitle = "Galree";
 
 class PageState {
@@ -24,8 +23,7 @@ class PageState {
     }
 
     async setDocTitleByPath(path) {
-        const route = pathBreaker.getRoute(path);
-        const validRoute = await routes.findRoute(route.name);
+        const validRoute = await routes.findRoute(path);
         if (validRoute)
             document.title = `${rootTitle} - ${validRoute.name}`;
     }

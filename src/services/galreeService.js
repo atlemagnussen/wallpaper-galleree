@@ -1,4 +1,7 @@
+
+import auth from "./authentication.js";
 import crud from "./firestoreCrud.js";
+import storage from "./firestorage.js";
 const collName = "galleries";
 import { userIsLoggedIn, galleriesStore } from "../store";
 
@@ -34,6 +37,32 @@ const find = async (id) => {
     return gal;
 };
 
+const getFileUrl = async (id) => {
+
+    const isLoggedIn = userIsLoggedIn.get();
+    if (isLoggedIn) {
+    
+        const user = auth.getCurrentUser();
+        const path = `${user.uid}/${id}`;
+        const url = await storage.get(path);
+        return url;
+    }
+    return null;
+};
+
+const uploadFile = async (id, file) => {
+
+    const isLoggedIn = userIsLoggedIn.get();
+    if (isLoggedIn) {
+    
+        const user = auth.getCurrentUser();
+        const path = `${user.uid}/${id}`;
+        const url = await storage.upload(path, file);
+        return url;
+    }
+    return null;
+};
+
 export default {
-    create, all, find
+    create, all, find, getFileUrl, uploadFile
 };
