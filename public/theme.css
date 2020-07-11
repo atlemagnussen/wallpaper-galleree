@@ -30,4 +30,5 @@
    --mdc-theme-secondary: var(--blue-grey-500);
    --mdc-theme-background: #000;
    --mdc-theme-surface: #fff;
+   --mdc-theme-text-primary-on-background: rgba(255, 255, 255, 0.7);
 }
