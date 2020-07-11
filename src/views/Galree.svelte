@@ -1,6 +1,7 @@
 <script>
     export let param;
     import service from "../services/galreeService.js";
+    import picService from "../services/pictureService.js";
     import { onMount } from "svelte";
     let fileInput;
     let files = ["atle-2020.jpg", "atle-2020-g.jpg"];
@@ -19,8 +20,19 @@
     
     const loadFiles = async () => {
         const res = await service.getFilesWithUrls(param);
-        filesUrl = res;
+        loadThumbnailUrls(res);
+    };
+
+    const loadThumbnailUrls = (files) => {
+        const filesWithThumbbailUrl = files.map((f) => {
+            const res = picService.getThumbnailUrl(f.filename);
+            f.thumbnail = res;
+            return f;
+        });
+        filesUrl = filesWithThumbbailUrl;
     }
+    
+
     onMount(() => {
         loadFiles();
     });
@@ -43,6 +55,6 @@
     <button on:click={loadFiles}>Load</button>
 </p>
 
-{#each filesUrl as { filename, url }, i}
-    <img alt={filename} src="{url}" />
+{#each filesUrl as { thumbnail, filename, url }, i}
+        <img alt={filename} src="{thumbnail}" />
 {/each}
