@@ -1,5 +1,5 @@
 const functions = require("firebase-functions");
-const images = require("images.js");
+const images = require("./images.js");
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

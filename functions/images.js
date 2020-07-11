@@ -1,6 +1,8 @@
+const path = require("path");
+const os = require("os");
 const functions = require("firebase-functions");
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage();
+// const {Storage} = require('@google-cloud/storage');
+// const storage = new Storage();
 const admin = require('firebase-admin');
 admin.initializeApp()
 const sharp = require('sharp');
@@ -33,9 +35,11 @@ exports.getThumbnail = async (req, res) => {
     const filePath = `${ownerId}/${filename}`;
     //const storage = functions.storage.object();
     const bucket = admin.storage().bucket();
-    const tempFilePath = path.join(os.tmpdir(), fileName);
-    const res = await bucket.file(filePath).download({destination: tempFilePath});
-    console.log(res);
+    const tempFilePath = path.join(os.tmpdir(), filename);
+    console.log(`tempFilePath=${tempFilePath}`);
+    const file = bucket.file(filePath);
+    const r = await file.download({destination: tempFilePath});
+    console.log(r);
     console.log('Image downloaded locally to', tempFilePath);
     sharp('input.jpg')
         .rotate()
