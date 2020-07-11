@@ -2,9 +2,6 @@
     let dialogEl;
     export let openState = false;
     export let background = "--secondary-color";
-    let toggleDialog = () => {
-        openState = !openState;
-    };
     $: if (openState) {
         if (dialogEl && !dialogEl.open)
             dialogEl.showModal();
@@ -20,6 +17,9 @@
         display: inline-block;
     }
     dialog {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
         left: 2rem;
         color: white;
         text-align: center;
@@ -27,7 +27,9 @@
         padding: 1rem;
         border-radius: 6px;
         box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25);
-        max-width: 90vw;
+        max-width: 98vw;
+        max-height: 98vh;
+        z-index: 900;
     }
 
     dialog::backdrop {

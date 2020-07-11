@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from "svelte";
+    // import { onMount } from "svelte";
     import Link from "../components/Link.svelte";
     import { userProfile, galleriesStore } from "../store";
     import service from "../services/galreeService.js";

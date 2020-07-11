@@ -21,9 +21,9 @@ const all = async () => {
     const isLoggedIn = userIsLoggedIn.get();
     if (!isLoggedIn)
         return [];
-    const galleries = galleriesStore.get();
+    let galleries = galleriesStore.get();
     if (galleries.length === 0 && isLoggedIn) {
-        const galleries = await crud.getAll(collName);
+        galleries = await crud.getAll(collName);
         galleriesStore.set(galleries);
     }
     return galleries;
@@ -90,6 +90,7 @@ const uploadFile = async (id, filename, file) => {
         const user = auth.getCurrentUser();
         const path = `${user.uid}/${filename}`;
         const res = await storage.upload(path, file);
+        console.log(res);
         const gal = await addpictureToGalree(id, filename);
         return gal;
     }
