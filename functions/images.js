@@ -35,13 +35,27 @@ exports.getThumbnail = async (req, res) => {
     const bucket = admin.storage().bucket();
     //const tempFilePath = path.join(os.tmpdir(), filename);
     const file = bucket.file(filePath);
-    console.log(file);
+    const exists = await file.exists();
+    if (!exists[0]) {
+        res.status(404).send("main pic does not exist!")
+        return;
+    }
+
+    const metadata = await file.getMetadata();
+    const contentType = metadata[0].contentType;
+    
+    const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
+    const fileThumbnail = bucket.file(thumbnailFilePath);
+    const thumbnailExists = await fileThumbnail.exists();
+    if (thumbnailExists[0]) {
+        console.log("thumbnail already created, serve");
+        return getFullFile(thumbnailFilePath, res);
+    }
     //const r = await file.download({destination: tempFilePath});// to file
     //const r = await file.download();// to file
     //console.log(r);
-    let streamBuffer
-    const stream  = file.createReadStream();
-    const buffer = await getRawBody(stream);
+    
+    //const buffer = await getRawBody(stream);
     // res.writeHead(200, {'Content-Type': 'image/jpg' });
     // stream.on('data', (data) => {
     //     res.write(data);
@@ -53,35 +67,22 @@ exports.getThumbnail = async (req, res) => {
     //     res.end();
     // });
     // console.log('Image downloaded locally to', tempFilePath);
-    res.writeHead(200, {'Content-Type': 'image/jpg' });
-    const thumb = await sharp(buffer).resize(200).toBuffer();
-    res.write(thumb);
-    res.end();
-    //     .rotate()
-    //     .resize(200)
-    //     .toBuffer()
+    //res.writeHead(200, {"Content-Type": contentType });
+    console.log("try it");
+    const readStream = file.createReadStream();
+    const writeStream = fileThumbnail.createWriteStream();
+    const thumbIt = (stream) => 
+        sharp(stream).resize(200);
+
+    await readStream
+        .pipe(thumbIt)
+        .pipe(writeStream)
+    
+    console.log("ok?");
+    return getFullFile(thumbnailFilePath, res);
 };
 
-exports.getFullFile = async (req, res) => {
-    cors(req, res);
-    let filename;
-    if (req.query.name) {
-        filename = `${escapeHtml(req.query.name)}`;
-    }
-    if (!filename) {
-        res.status(404).send("Sorry no f!")
-        return;
-    }
-
-    let ownerId;
-    if (req.query.owner) {
-        ownerId = `${escapeHtml(req.query.owner)}`;
-    }
-    if (!ownerId) {
-        res.status(404).send("Sorry no o!")
-        return;
-    }
-
+const getFullFile = async (filePath, res) => {
     //const filePath = `${ownerId}/${filename}`;
     //const storage = functions.storage.object();
     const bucket = admin.storage().bucket();

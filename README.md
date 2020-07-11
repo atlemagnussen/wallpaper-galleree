@@ -7,3 +7,5 @@ with firebase
 
 ## run interactively
 firebase functions:shell
+
+https://googleapis.dev/nodejs/storage/latest/File.html#getMetadata
