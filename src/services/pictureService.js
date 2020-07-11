@@ -12,4 +12,22 @@ const getThumbnailUrl = (filename) => {
     return `${baseUrl}/getThumbnail?name=${filename}&owner=${up.id}`;
 };
 
-export default {getThumbnailUrl};
+const listAllFiles = async () => {
+    const up = userProfile.get();
+    if (!up.id) {
+        throw new Error("be logged in");
+    }
+    const storageRef = firebase.storage().ref();
+    const listRef = storageRef.child(up.id);
+    // Find all the prefixes and items.
+    const res = await listRef.listAll();
+    res.prefixes.forEach((folderRef) => {
+        console.log(folderRef);
+    });
+    res.items.forEach((itemRef) => {
+        console.log(itemRef);
+    });
+};
+
+
+export default { getThumbnailUrl, listAllFiles};

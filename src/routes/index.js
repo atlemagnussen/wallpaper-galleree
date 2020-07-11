@@ -75,5 +75,9 @@ const routes = [
     {
         path: "new",
         component: New
+    },
+    {
+        path: "g",
+        component: Galree
     }
 ];

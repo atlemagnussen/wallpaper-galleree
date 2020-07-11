@@ -20,7 +20,7 @@
     <ul>
         {#each $galleriesStore as { name, _id }, i}
             <p>
-                <Link page="{{ path: `/${_id}`, name }}"></Link>
+                <Link page="{{ path: `/g/${_id}`, name }}"></Link>
             </p>
         {/each}
     </ul>

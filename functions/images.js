@@ -1,12 +1,11 @@
 
-const functions = require("firebase-functions");
-const getRawBody = require('raw-body');
-// const {Storage} = require('@google-cloud/storage');
+const getRawBody = require("raw-body");
+// const {Storage} = require("@google-cloud/storage");
 // const storage = new Storage();
-const admin = require('firebase-admin');
-admin.initializeApp()
-const sharp = require('sharp');
-const escapeHtml = require('escape-html');
+const admin = require("firebase-admin");
+admin.initializeApp();
+const sharp = require("sharp");
+const escapeHtml = require("escape-html");
 const cors = require("./cors.js");
 
 exports.generateThumbnailOnUpload = async (object) => {
@@ -15,8 +14,8 @@ exports.generateThumbnailOnUpload = async (object) => {
     const filePath = object.name; // File path in the bucket.
     const contentType = object.contentType;
 
-    if (!contentType.startsWith('image/')) {
-        return console.log('This is not an image.');
+    if (!contentType.startsWith("image/")) {
+        return console.log("This is not an image.");
     }
 
     console.log(`make thumbnail of ${filePath} and store it to ${fileBucket}`);
@@ -25,11 +24,11 @@ exports.generateThumbnailOnUpload = async (object) => {
     const orgFileReadStream = file.createReadStream();
     const orgFileBuffer = await getRawBody(orgFileReadStream);
 
-    const split = filePath.split('/');
+    const split = filePath.split("/");
     const ownerId = split[0];
     const filename = split[1];
     if (!ownerId || !filename)
-        return console.log('missing owner or filename');
+        return console.log("missing owner or filename");
     
     const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
     console.log(`thumbnailFilePath=${thumbnailFilePath}`);
@@ -48,7 +47,7 @@ exports.getThumbnail = async (req, res) => {
         filename = `${escapeHtml(req.query.name)}`;
     }
     if (!filename) {
-        res.status(404).send("Sorry no f!")
+        res.status(404).send("Sorry no f!");
         return;
     }
 
@@ -57,7 +56,7 @@ exports.getThumbnail = async (req, res) => {
         ownerId = `${escapeHtml(req.query.owner)}`;
     }
     if (!ownerId) {
-        res.status(404).send("Sorry no o!")
+        res.status(404).send("Sorry no o!");
         return;
     }
 
@@ -66,7 +65,7 @@ exports.getThumbnail = async (req, res) => {
     const file = bucket.file(filePath);
     const exists = await file.exists();
     if (!exists[0]) {
-        res.status(404).send("main pic does not exist!")
+        res.status(404).send("main p does not exist!");
         return;
     }
 
@@ -87,13 +86,13 @@ exports.getThumbnail = async (req, res) => {
     const orgFileBuffer = await getRawBody(orgFileReadStream);
     const writeStreamThumbnail = fileThumbnail.createWriteStream();
     let sharpStream = sharp(orgFileBuffer).resize(200);
-    sharpStream.on('data', (data) => {
+    sharpStream.on("data", (data) => {
         res.write(data);
     });
-    sharpStream.on('error', (err) => {
-        console.error('error reading stream', err);
+    sharpStream.on("error", (err) => {
+        console.error("error reading stream", err);
     });
-    sharpStream.on('end', () => {
+    sharpStream.on("end", () => {
         res.end();
     });
     await sharpStream.pipe(writeStreamThumbnail);
@@ -106,14 +105,14 @@ const getFullFile = async (filePath, res) => {
     const bucket = admin.storage().bucket();
     const file = bucket.file(filePath);
     const stream  = file.createReadStream();
-    res.writeHead(200, {'Content-Type': 'image/jpg' });
-    stream.on('data', (data) => {
+    res.writeHead(200, {"Content-Type": "image/jpg" });
+    stream.on("data", (data) => {
         res.write(data);
     });
-    stream.on('error', (err) => {
-        console.log('error reading stream', err);
+    stream.on("error", (err) => {
+        console.log("error reading stream", err);
     });
-    stream.on('end', () => {
+    stream.on("end", () => {
         res.end();
     });
 };
