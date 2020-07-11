@@ -56,5 +56,5 @@
 </p>
 
 {#each filesUrl as { thumbnail, filename, url }, i}
-        <img alt={filename} src="{thumbnail}" />
+    <img alt={filename} src="{thumbnail}" />
 {/each}

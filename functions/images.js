@@ -1,5 +1,4 @@
-const path = require("path");
-const os = require("os");
+
 const functions = require("firebase-functions");
 const getRawBody = require('raw-body');
 // const {Storage} = require('@google-cloud/storage');
@@ -8,9 +7,10 @@ const admin = require('firebase-admin');
 admin.initializeApp()
 const sharp = require('sharp');
 const escapeHtml = require('escape-html');
+const cors = require("./cors.js");
 
 exports.getThumbnail = async (req, res) => {
-    cors(req, res);
+    cors.add(req, res);
     console.log("getThumbnail");
     let filename;
     if (req.query.name) {
@@ -31,9 +31,9 @@ exports.getThumbnail = async (req, res) => {
     }
 
     const filePath = `${ownerId}/${filename}`;
-    //const storage = functions.storage.object();
+    
     const bucket = admin.storage().bucket();
-    //const tempFilePath = path.join(os.tmpdir(), filename);
+    
     const file = bucket.file(filePath);
     const exists = await file.exists();
     if (!exists[0]) {
@@ -51,43 +51,30 @@ exports.getThumbnail = async (req, res) => {
         console.log("thumbnail already created, serve");
         return getFullFile(thumbnailFilePath, res);
     }
-    //const r = await file.download({destination: tempFilePath});// to file
-    //const r = await file.download();// to file
-    //console.log(r);
     
-    //const buffer = await getRawBody(stream);
-    // res.writeHead(200, {'Content-Type': 'image/jpg' });
-    // stream.on('data', (data) => {
-    //     res.write(data);
-    // });
-    // stream.on('error', (err) => {
-    //     console.log('error reading stream', err);
-    // });
-    // stream.on('end', () => {
-    //     res.end();
-    // });
-    // console.log('Image downloaded locally to', tempFilePath);
-    //res.writeHead(200, {"Content-Type": contentType });
-    console.log("try it");
-    const readStream = file.createReadStream();
-    const writeStream = fileThumbnail.createWriteStream();
-    const thumbIt = (stream) => 
-        sharp(stream).resize(200);
-
-    await readStream
-        .pipe(thumbIt)
-        .pipe(writeStream)
+    res.writeHead(200, {"Content-Type": contentType });
+    console.log("make thumbnail and store it and then serve it right back");
+    const orgFileReadStream = file.createReadStream();
+    const orgFileBuffer = await getRawBody(orgFileReadStream);
+    const writeStreamThumbnail = fileThumbnail.createWriteStream();
+    let sharpStream = sharp(orgFileBuffer).resize(200);
+    sharpStream.on('data', (data) => {
+        res.write(data);
+    });
+    sharpStream.on('error', (err) => {
+        console.error('error reading stream', err);
+    });
+    sharpStream.on('end', () => {
+        res.end();
+    });
+    await sharpStream.pipe(writeStreamThumbnail);
     
     console.log("ok?");
-    return getFullFile(thumbnailFilePath, res);
 };
 
 const getFullFile = async (filePath, res) => {
-    //const filePath = `${ownerId}/${filename}`;
-    //const storage = functions.storage.object();
+    console.log(`GetFullFile ${filePath}`);
     const bucket = admin.storage().bucket();
-    //const tempFilePath = path.join(os.tmpdir(), filename);
-    //console.log(`tempFilePath=${tempFilePath}`);
     const file = bucket.file(filePath);
     const stream  = file.createReadStream();
     res.writeHead(200, {'Content-Type': 'image/jpg' });
@@ -100,20 +87,4 @@ const getFullFile = async (filePath, res) => {
     stream.on('end', () => {
         res.end();
     });
-};
-const origins = [
-    "localhost:8000",
-    "http://wallpaper-galleree.web.app"
-]
-const defaultOrigin = "http://localhost:8000";
-const cors = (req, res) => {
-    let origin = req.headers.origin ? req.headers.origin : defaultOrigin;
-    console.log(`origin=${origin}`);
-    if(origins.indexOf(origin) >= 0){
-        res.header("Access-Control-Allow-Origin", origin);
-    }   
-    
-    res.set("Access-Control-Allow-Credentials", "true");
-    res.set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.set("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 };
