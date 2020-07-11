@@ -8,3 +8,5 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 });
 
 exports.getThumbnail = functions.https.onRequest(images.getThumbnail);
+
+exports.generateThumbnailOnUpload = functions.storage.object().onFinalize(images.generateThumbnailOnUpload);

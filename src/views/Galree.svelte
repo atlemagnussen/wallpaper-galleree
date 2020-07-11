@@ -16,11 +16,12 @@
         }
     };
 
-    let filesUrl = [];
+    let filesUrls = [];
     
     const loadFiles = async () => {
-        const res = await service.getFilesWithUrls(param);
-        loadThumbnailUrls(res);
+        const res = await service.getFilesUrls(param);
+        filesUrls = res;
+       // loadThumbnailUrls(res);
     };
 
     const loadThumbnailUrls = (files) => {
@@ -55,6 +56,6 @@
     <button on:click={loadFiles}>Load</button>
 </p>
 
-{#each filesUrl as { thumbnail, filename, url }, i}
+{#each filesUrls as { thumbnail, filename, url }, i}
     <img alt={filename} src="{thumbnail}" />
 {/each}

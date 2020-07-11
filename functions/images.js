@@ -9,6 +9,37 @@ const sharp = require('sharp');
 const escapeHtml = require('escape-html');
 const cors = require("./cors.js");
 
+exports.generateThumbnailOnUpload = async (object) => {
+    console.log("generateThumbnailOnUpload");
+    const fileBucket = object.bucket; // The Storage bucket that contains the file.
+    const filePath = object.name; // File path in the bucket.
+    const contentType = object.contentType;
+
+    if (!contentType.startsWith('image/')) {
+        return console.log('This is not an image.');
+    }
+
+    console.log(`make thumbnail of ${filePath} and store it to ${fileBucket}`);
+    const bucket = admin.storage().bucket(fileBucket);
+    const file = bucket.file(filePath);
+    const orgFileReadStream = file.createReadStream();
+    const orgFileBuffer = await getRawBody(orgFileReadStream);
+
+    const split = filePath.split('/');
+    const ownerId = split[0];
+    const filename = split[1];
+    if (!ownerId || !fileName)
+        return console.log('missing owner or filename');
+    
+    const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
+    console.log(`thumbnailFilePath=${thumbnailFilePath}`);
+    const fileThumbnail = bucket.file(thumbnailFilePath);
+    const writeStreamThumbnail = fileThumbnail.createWriteStream();
+    let sharpStream = sharp(orgFileBuffer).resize(200);
+    await sharpStream.pipe(writeStreamThumbnail);
+    console.log("done writing thumbnail");
+    return true;
+};
 exports.getThumbnail = async (req, res) => {
     cors.add(req, res);
     console.log("getThumbnail");
@@ -31,9 +62,7 @@ exports.getThumbnail = async (req, res) => {
     }
 
     const filePath = `${ownerId}/${filename}`;
-    
     const bucket = admin.storage().bucket();
-    
     const file = bucket.file(filePath);
     const exists = await file.exists();
     if (!exists[0]) {

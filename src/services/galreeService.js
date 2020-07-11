@@ -44,13 +44,13 @@ const addpictureToGalree = async (id, filename) => {
     gal.files.push(filename);
 
     await crud.createOrUpdate(collName, gal);
-    const galleries = galleriesStore.get();
+    //const galleries = galleriesStore.get();
     // const planOrg = plans.find(p => p._id === plan._id);
     // Object.assign(planOrg, plan); // merge
     return gal;
 };
 
-const getFilesWithUrls = async (id) => {
+const getFilesUrls = async (id) => {
     const gal = await find(id);
     if (!gal) return [];
     const urls = await loadFilesUrls(gal.files);
@@ -60,21 +60,23 @@ const getFilesWithUrls = async (id) => {
 const loadFilesUrls = async (files) => {
     const promises = files.map(async filename => {
         const url = await getFileUrl(filename);
+        const thumbnail = await getFileUrl(filename, "thumbnails");
         return {
-            filename, url
+            filename, url, thumbnail
         };
     });
     const res = Promise.all(promises);
     return res;
 };
 
-const getFileUrl = async (id) => {
-
+const getFileUrl = async (id, subfolder) => {
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
     
         const user = auth.getCurrentUser();
-        const path = `${user.uid}/${id}`;
+        let path = `${user.uid}/${id}`;
+        if (subfolder)
+            path = `${user.uid}/${subfolder}/${id}`;
         const url = await storage.get(path);
         return url;
     }
@@ -95,5 +97,5 @@ const uploadFile = async (id, filename, file) => {
 };
 
 export default {
-    create, all, find, getFileUrl, uploadFile, getFilesWithUrls
+    create, all, find, getFileUrl, uploadFile, getFilesUrls
 };
