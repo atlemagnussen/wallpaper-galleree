@@ -21,7 +21,7 @@
     const loadFiles = async () => {
         const res = await service.getFilesUrls(param);
         filesUrls = res;
-       // loadThumbnailUrls(res);
+        //loadThumbnailUrls(res);
     };
 
     const loadThumbnailUrls = (files) => {
@@ -30,7 +30,7 @@
             f.thumbnail = res;
             return f;
         });
-        filesUrl = filesWithThumbbailUrl;
+        filesUrls = filesWithThumbbailUrl;
     }
     
 

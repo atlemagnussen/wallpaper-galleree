@@ -28,7 +28,7 @@ exports.generateThumbnailOnUpload = async (object) => {
     const split = filePath.split('/');
     const ownerId = split[0];
     const filename = split[1];
-    if (!ownerId || !fileName)
+    if (!ownerId || !filename)
         return console.log('missing owner or filename');
     
     const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
