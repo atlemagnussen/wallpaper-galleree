@@ -10,6 +10,7 @@
     import ThemeToggle from "./components/ThemeToggle.svelte";
     import Spinner from "./components/Spinner.svelte";
     import Dialog from "./components/Dialog.svelte";
+    import Picture from "./views/Picture.svelte";
     import Container from "./Container.svelte";
     import { onMount } from "svelte";
 
@@ -54,9 +55,8 @@
     header {
         padding: 0 0.5rem;
     }
-    img.dialog {
-        /* object-fit: contain; */
-        object-fit: scale-down;
+    .picframe {
+        height: 100%;
     }
 </style>
 <svelte:window on:popstate="{handlerBackNavigation}" />
@@ -79,15 +79,8 @@
     <Container />
     <Spinner />
     <Dialog openState="{picDialogState}" background="--warning-color">
-        <div slot="btnContent" class="displaynone">
-        </div>
-        <div slot="dlgContent" class="flex column" on:click={() => picDialogState = false}>
-            {#if picDialogState}
-                <img class="dialog" alt={$currentFile.filename} src={$currentFile.url} />
-            {/if}
-            <p>
-                <button on:click={() => picDialogState = false} icon="cancel" color="white">close</button>
-            </p>
+        <div class="picframe" slot="dlgContent" on:click={() => picDialogState = false}>
+            <Picture />
         </div>
     </Dialog>
 </main>

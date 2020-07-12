@@ -1,7 +1,6 @@
 <script>
     let dialogEl;
     export let openState = false;
-    export let background = "red";
     $: if (openState) {
         if (dialogEl && !dialogEl.open)
             dialogEl.showModal();
@@ -14,27 +13,24 @@
 
 <style>
     dialog {
-        top: 1vh;
-        left: 1vw;
-        right: 1vw;
-        bottom: 1vh;
-        color: white;
-        background: red;
-        text-align: center;
-        border: none;
-        padding: 1rem;
-        border-radius: 6px;
-        /* box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25); */
-        width: 98vw;
-        height: 98vh;
-        max-width: 98vw;
-        max-height: 98vh;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
         z-index: 900;
+        padding: 0;
+        margin: 0;
+        border: 1px solid var(--mdc-theme-background);
+        box-sizing: border-box;
     }
-
+    .dlgContent {
+        background: red;
+        height: 100%;
+    }
 </style>
 
-<dialog class="general-dialog" bind:this={dialogEl}
-    style="background: var({background})">
-    <slot name="dlgContent">dialog content</slot>
+<dialog class="general-dialog" bind:this={dialogEl}>
+    <slot class="dlgContent" name="dlgContent">dialog content</slot>
 </dialog>
