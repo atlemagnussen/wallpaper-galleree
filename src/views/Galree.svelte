@@ -46,6 +46,15 @@
 </script>
 
 <style>
+    article {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-gap: 1rem;
+    }
+    div.header {
+        display: flex;
+        flex-direction: column;
+    }
     div.thumbnails {
         display: inline-block;
         width: 200px;
@@ -54,16 +63,29 @@
         max-height: 200px;
         margin-right: 1rem;
     }
+    .btn-upload {
+        
+    }
 </style>
-<p>Galree id {param}</p>
-{#if $userIsLoggedIn}
-    <input type="file" bind:this={fileInput} />
-    <button on:click={upload}>Upload</button>
-
-    {#each filesUrls as file, i}
-        <div class="thumbnails" on:click={() => openFileDialog(file)} >
-            <Thumbnail name={file.name} url={file.thumbnail} />
-        </div>
-    {/each}
+<article>
+    <div class="header">
+        <p>Galree id {param}</p>
+        {#if $userIsLoggedIn}
+            <div class="uploader">
+                <input type="file" bind:this={fileInput} />
+                <button class="btn-upload" on:click={upload}>Upload</button>
+            </div>
+        {/if}
+    </div>
+    <div class="list">
+        {#if $userIsLoggedIn}
+            {#each filesUrls as file, i}
+                <div class="thumbnails" on:click={() => openFileDialog(file)} >
+                    <Thumbnail name={file.name} url={file.thumbnail} />
+                </div>
+            {/each}
     
-{/if}
+        {/if}
+    </div>
+</article>
+
