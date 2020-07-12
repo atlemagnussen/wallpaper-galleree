@@ -43,6 +43,10 @@
 
     let unsubLoggedIn;
     onMount(() => {
+        // fileInput.addEventListener("change", (e) => {
+        //     const file = e.target.files[0];
+        //     console.log(`new file uploading ${file.name}`);
+        // });
         unsubLoggedIn = userIsLoggedIn.subscribe(val => {
             if (val)
                 loadFiles();
@@ -67,17 +71,15 @@
         display: flex;
         flex-direction: column;
     }
-    .btn-upload {
-        
-    }
+
 </style>
 <article>
     <div class="header">
         <p>Galree id {param}</p>
         {#if $userIsLoggedIn}
             <div class="uploader">
-                <input type="file" bind:this={fileInput} />
-                <button class="btn-upload" on:click={upload}>Upload {uploadProgress}%</button>
+                <input type="file" bind:this={fileInput} on:change={upload} />
+                <span class="upload">Upload {uploadProgress}%</span>
             </div>
         {/if}
     </div>
