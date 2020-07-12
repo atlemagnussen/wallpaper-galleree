@@ -16,8 +16,8 @@ const genAndUploadThumbnail = (bucketName, orgFilePath, thumbFilePath) => {
         
         const thumbUploadStream = thumbFile.createWriteStream();
         let pipeline = sharp();
-        pipeline.resize(200).pipe(thumbnailUploadStream);
-        const orgFileReadStream = file.createReadStream();
+        pipeline.resize(200).pipe(thumbUploadStream);
+        const orgFileReadStream = orgFile.createReadStream();
         orgFileReadStream.pipe(pipeline);
         thumbUploadStream.on("finish", resolve).on("error", reject);
     });

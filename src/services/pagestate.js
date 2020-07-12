@@ -1,5 +1,4 @@
 import { docTitle, curRoute } from "../store";
-import * as routes from "../routes";
 let rootTitle = "Galree";
 
 class PageState {
@@ -22,10 +21,8 @@ class PageState {
         rootTitle = title;
     }
 
-    async setDocTitleByPath(path) {
-        const validRoute = await routes.findRoute(path);
-        if (validRoute)
-            document.title = `${rootTitle} - ${validRoute.name}`;
+    async setDocTitleByPath() {
+        document.title = `${rootTitle}`;
     }
 
     setWindowLocationIfNot(path) {

@@ -83,16 +83,24 @@ const getFileUrl = async (id, subfolder) => {
     return null;
 };
 
-const uploadFile = async (id, filename, file) => {
+const uploadFile = (id, filename, file) => {
 
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
         const user = auth.getCurrentUser();
         const path = `${user.uid}/${filename}`;
-        const res = await storage.upload(path, file);
-        console.log(res);
-        const gal = await addpictureToGalree(id, filename);
-        return gal;
+        const uploadTask = storage.upload(path, file);
+        
+        uploadTask.on("state_changed", (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(`Upload is ${progress}% done`);
+        }, (error) => {
+            console.log(error);
+        }, async () => {
+            await addpictureToGalree(id, filename);
+            console.log("added pic to gal after upload");
+        });
+        return uploadTask;
     }
     return null;
 };

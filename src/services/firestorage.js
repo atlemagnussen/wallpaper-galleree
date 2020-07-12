@@ -7,16 +7,15 @@ const get = async (path) => {
     return url;
 
 };
-const upload = async (path, file) => {
+const upload = (path, file) => {
 
     const storageRef = firebase.storage().ref();
     const fileRef = storageRef.child(path);
     // const metadata = {
     //     contentType: "image/jpeg",
     // };
-    const res = await fileRef.put(file);
-    console.log("done uploading");
-    return res;
+    const uploadTask = fileRef.put(file);
+    return uploadTask;
 };
 
 export default {
