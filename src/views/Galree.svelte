@@ -1,17 +1,13 @@
 <script>
     export let param;
-    import { userIsLoggedIn, currentFile, curRoute } from "../store";
+    import { userIsLoggedIn, currentFile } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
     let fileInput;
-    let picDialogState = false;
 
     const openFileDialog = (file) => {
         currentFile.set(file);
-    };
-    const openFile = () => {
-        curRoute.set("/p");
     };
 
     const upload = async () => {

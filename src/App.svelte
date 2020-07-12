@@ -23,14 +23,14 @@
         isSpinning.set(false);
         isDarkTheme.subscribe(val => {
             if (val)
-                document.body.classList.add("dark-theme")
+                document.body.classList.add("dark-theme");
             else
                 document.body.classList.remove("dark-theme");
         });
         currentFile.subscribe((val) => {
             if (val.filename !== "dummy")
                 picDialogState = true;
-        })
+        });
     });
     const handlerBackNavigation = (event) => {
         curRoute.set(event.state.path);
@@ -60,7 +60,7 @@
     }
 </style>
 <svelte:window on:popstate="{handlerBackNavigation}" />
-<svelte:body class:dark-theme="{$isDarkTheme}" />
+<!-- <svelte:body class:dark-theme="{$isDarkTheme}" />-->
 
 <main>
     <header>

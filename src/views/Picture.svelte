@@ -17,8 +17,9 @@
     }
     figure img {
         height: 100%;
+        width: 100%;
         object-fit: contain;
-        /* object-fit: scale-down; */
+        /*object-fit: scale-down;*/
     }
 </style>
 {#if $userIsLoggedIn}

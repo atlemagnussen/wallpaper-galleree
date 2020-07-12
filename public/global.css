@@ -7,24 +7,8 @@
 a {
 	color: var(--mdc-theme-text-primary-on-background);
 }
-label.mdc-text-field.exercise-name {
-	flex-basis: 80%;
-	flex-grow: 1;
-	flex-shrink: 1;
-}
-label.mdc-text-field.exercise-sets, label.mdc-text-field.exercise-reps {
-	flex-basis: 10%;
-	flex-grow: 1;
-	flex-shrink: 1;
-}
 
 @media only screen and (max-width: 640px) {
-	label.mdc-text-field {
-		padding: 0 4px;
-	}
-	label.mdc-text-field--textarea textarea.mdc-text-field__input {
-		padding: 0 4px;
-	}
 }
 
 .displaynone {
