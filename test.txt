@@ -1,0 +1,10 @@
+gs://wallpaper-galleree.appspot.com
+YemV2Tau6ReKvK5CEFwLLlxp28k1
+
+/YemV2Tau6ReKvK5CEFwLLlxp28k1
+20200709_155205.jpg
+
+http://localhost:5000/wallpaper-galleree/us-central1/getThumbnail?owner=YemV2Tau6ReKvK5CEFwLLlxp28k1&name=20200709_155205.jpg
+
+
+https://us-central1-wallpaper-galleree.cloudfunctions.net/getThumbnail?owner=YemV2Tau6ReKvK5CEFwLLlxp28k1&name=20200709_155205.jpg

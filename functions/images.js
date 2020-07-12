@@ -1,28 +1,20 @@
-
-const getRawBody = require("raw-body");
 // const {Storage} = require("@google-cloud/storage");
 // const storage = new Storage();
-const admin = require("firebase-admin");
-admin.initializeApp();
 const sharp = require("sharp");
+const admin = require("./adminInit.js");
 const escapeHtml = require("escape-html");
 const cors = require("./cors.js");
+const processing = require("./imageProcessing.js");
 
 exports.generateThumbnailOnUpload = async (object) => {
     console.log("generateThumbnailOnUpload");
-    const fileBucket = object.bucket; // The Storage bucket that contains the file.
-    const filePath = object.name; // File path in the bucket.
+    const bucketName = object.bucket;
+    const filePath = object.name;
     const contentType = object.contentType;
 
     if (!contentType.startsWith("image/")) {
         return console.log("This is not an image.");
     }
-
-    console.log(`make thumbnail of ${filePath} and store it to ${fileBucket}`);
-    const bucket = admin.storage().bucket(fileBucket);
-    const file = bucket.file(filePath);
-    const orgFileReadStream = file.createReadStream();
-    const orgFileBuffer = await getRawBody(orgFileReadStream);
 
     const split = filePath.split("/");
     const ownerId = split[0];
@@ -30,15 +22,18 @@ exports.generateThumbnailOnUpload = async (object) => {
     if (!ownerId || !filename)
         return console.log("missing owner or filename");
     
+    console.log(`make thumbnail of ${filePath} and store it to ${bucketName}`);
+
     const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
     console.log(`thumbnailFilePath=${thumbnailFilePath}`);
-    const fileThumbnail = bucket.file(thumbnailFilePath);
-    const writeStreamThumbnail = fileThumbnail.createWriteStream();
-    let sharpStream = sharp(orgFileBuffer).resize(200);
-    await sharpStream.pipe(writeStreamThumbnail);
-    console.log("done writing thumbnail");
-    return true;
+    
+    try {
+        await processing.genAndUploadThumbnail(bucketName, filePath, thumbnailFilePath)
+    } catch(ex) {
+        console.log(ex);
+    }
 };
+
 exports.getThumbnail = async (req, res) => {
     cors.add(req, res);
     console.log("getThumbnail");
@@ -82,30 +77,35 @@ exports.getThumbnail = async (req, res) => {
     
     res.writeHead(200, {"Content-Type": contentType });
     console.log("make thumbnail and store it and then serve it right back");
+    
+    const thumbnailUploadStream = fileThumbnail.createWriteStream();
+    const pipeline = sharp();
+    pipeline.resize(200).pipe(thumbnailUploadStream);
     const orgFileReadStream = file.createReadStream();
-    const orgFileBuffer = await getRawBody(orgFileReadStream);
-    const writeStreamThumbnail = fileThumbnail.createWriteStream();
-    let sharpStream = sharp(orgFileBuffer).resize(200);
-    sharpStream.on("data", (data) => {
+    orgFileReadStream.pipe(pipeline);
+    
+    pipeline.on("data", (data) => {
         res.write(data);
     });
-    sharpStream.on("error", (err) => {
-        console.error("error reading stream", err);
+    pipeline.on("error", (err) => {
+        console.error("error processing", err);
     });
-    sharpStream.on("end", () => {
+    pipeline.on("end", () => {
         res.end();
     });
-    await sharpStream.pipe(writeStreamThumbnail);
     
-    console.log("ok?");
+    return new Promise((resolve, reject) =>
+      thumbnailUploadStream.on('finish', resolve).on('error', reject));
 };
 
 const getFullFile = async (filePath, res) => {
     console.log(`GetFullFile ${filePath}`);
     const bucket = admin.storage().bucket();
     const file = bucket.file(filePath);
+    const metadata = await file.getMetadata();
+    const contentType = metadata[0].contentType;
     const stream  = file.createReadStream();
-    res.writeHead(200, {"Content-Type": "image/jpg" });
+    res.writeHead(200, {"Content-Type": contentType });
     stream.on("data", (data) => {
         res.write(data);
     });
