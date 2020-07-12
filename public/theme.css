@@ -26,7 +26,7 @@
    --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
 }
 .dark-theme {
-   --mdc-theme-primary: #6200ee;
+   --mdc-theme-primary: var(--indigo-100);
    --mdc-theme-secondary: var(--blue-grey-500);
    --mdc-theme-background: #000;
    --mdc-theme-surface: #fff;

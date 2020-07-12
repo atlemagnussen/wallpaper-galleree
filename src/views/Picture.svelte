@@ -12,6 +12,8 @@
         display: grid;
         grid-template-rows: auto 1fr;
         place-items: center;
+        color: var(--mdc-theme-primary);
+        background: var(--mdc-theme-background);
     }
     figure img {
         height: 100%;
@@ -21,7 +23,7 @@
 </style>
 {#if $userIsLoggedIn}
     <figure>
-        <figcaption>{$currentFile.filename}</figcaption>
-        <img class="dialog" alt={$currentFile.filename} src={$currentFile.url} />
+        <figcaption>{$currentFile.name}</figcaption>
+        <img class="dialog" alt={$currentFile.name} src={$currentFile.url} />
     </figure>
 {/if}

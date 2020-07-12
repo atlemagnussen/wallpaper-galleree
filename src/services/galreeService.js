@@ -58,11 +58,11 @@ const getFilesUrls = async (id) => {
 };
 
 const loadFilesUrls = async (files) => {
-    const promises = files.map(async filename => {
-        const url = await getFileUrl(filename);
-        const thumbnail = await getFileUrl(filename, "thumbnails");
+    const promises = files.map(async name => {
+        const url = await getFileUrl(name);
+        const thumbnail = await getFileUrl(name, "thumbnails");
         return {
-            filename, url, thumbnail
+            name, url, thumbnail
         };
     });
     const res = Promise.all(promises);

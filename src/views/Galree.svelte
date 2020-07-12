@@ -3,7 +3,7 @@
     import { userIsLoggedIn, currentFile, curRoute } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
-    
+    import Thumbnail from "../components/Thumbnail.svelte";
     let fileInput;
     let picDialogState = false;
 
@@ -50,12 +50,13 @@
 </script>
 
 <style>
-    figure {
+    div.thumbnails {
         display: inline-block;
-    }
-    figure img {
-        width: 10rem;
-        height: 10rem;
+        width: 200px;
+        height: 200px;
+        max-width: 200px;
+        max-height: 200px;
+        margin-right: 1rem;
     }
 </style>
 <p>Galree id {param}</p>
@@ -63,17 +64,10 @@
     <input type="file" bind:this={fileInput} />
     <button on:click={upload}>Upload</button>
 
-    <p>
-        <button on:click={loadFiles}>Load</button>
-    </p>
-
     {#each filesUrls as file, i}
-        <figure>
-            <img on:click={() => openFileDialog(file)} alt={file.filename} src="{file.thumbnail}" />
-            <figcaption on:click={() => openFile(file)}>
-                {file.filename}
-            </figcaption>
-        </figure>
+        <div class="thumbnails" on:click={() => openFileDialog(file)} >
+            <Thumbnail name={file.name} url={file.thumbnail} />
+        </div>
     {/each}
     
 {/if}
