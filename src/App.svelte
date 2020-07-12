@@ -79,7 +79,7 @@
     <Container />
     <Spinner />
     <Dialog openState="{picDialogState}" background="--warning-color">
-        <div slot="btnContent">
+        <div slot="btnContent" class="displaynone">
         </div>
         <div slot="dlgContent" class="flex column" on:click={() => picDialogState = false}>
             {#if picDialogState}

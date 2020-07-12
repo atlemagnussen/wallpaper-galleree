@@ -5,19 +5,23 @@
 
 <style>
     figure {
-        display: inline-block;
         padding: 0;
         margin: 0;
+        height: 100%;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        place-items: center;
     }
     figure img {
-        width: 100%;
         height: 100%;
-        /* object-fit: contain; */
-        object-fit: scale-down;
+        object-fit: contain;
+        /* object-fit: scale-down; */
     }
 </style>
 {#if $userIsLoggedIn}
     <figure>
+        <figcaption>{$currentFile.filename}</figcaption>
         <img class="dialog" alt={$currentFile.filename} src={$currentFile.url} />
     </figure>
 {/if}

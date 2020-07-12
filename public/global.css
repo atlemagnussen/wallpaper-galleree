@@ -26,3 +26,7 @@ label.mdc-text-field.exercise-sets, label.mdc-text-field.exercise-reps {
 		padding: 0 4px;
 	}
 }
+
+.displaynone {
+	display: none;
+}

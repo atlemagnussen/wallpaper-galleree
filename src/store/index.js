@@ -21,7 +21,11 @@ const createGettableWritableStore = (initialVal) => {
 export const userIsLoggedIn = createGettableWritableStore(false);
 export const userProfile = createGettableWritableStore({ loggedIn: false, name: "Anon", initials: "U" });
 export const galleriesStore = createGettableWritableStore([]);
-export const currentFile = createGettableWritableStore( {filename: "dummy", url: "/assets/galree.jpg"});
+export const currentFile = createGettableWritableStore( {
+    filename: "dummy",
+    url: "https://firebasestorage.googleapis.com/v0/b/wallpaper-galleree.appspot.com/o/YemV2Tau6ReKvK5CEFwLLlxp28k1%2Fbackground-red-sunset-tjensvoll_1400x900.jpg?alt=media&token=ca6056da-42b3-46f4-8844-fb224b7c5f61"
+    //url: "/assets/galree.jpg"
+});
 
 const createGettableAppendableWriteableStore = (initialVal) => {
     let val = initialVal;
