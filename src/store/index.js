@@ -21,6 +21,7 @@ const createGettableWritableStore = (initialVal) => {
 export const userIsLoggedIn = createGettableWritableStore(false);
 export const userProfile = createGettableWritableStore({ loggedIn: false, name: "Anon", initials: "U" });
 export const galleriesStore = createGettableWritableStore([]);
+export const currentFile = createGettableWritableStore( {filename: "dummy", url: "/assets/galree.jpg"});
 
 const createGettableAppendableWriteableStore = (initialVal) => {
     let val = initialVal;

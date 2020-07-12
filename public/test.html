@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    html,
+    body,
+    main {
+        height: 100%;
+        margin: 0;
+    }
+    main {
+        display: grid;
+        grid-template-rows: auto 1fr;
+    }
+    .content {
+        overflow-y: auto;
+        background: blue;
+    }
+
+</style>
+<body>
+    <main>
+        <header>header</header>
+        <div class="content">content</div>
+    </main>
+</body>
+</html>

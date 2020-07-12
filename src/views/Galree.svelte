@@ -1,17 +1,17 @@
 <script>
     export let param;
-    import { userIsLoggedIn } from "../store";
+    import { userIsLoggedIn, currentFile, curRoute } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
-    import Dialog from "../components/Dialog.svelte";
     
     let fileInput;
     let picDialogState = false;
-    let currentFile;
 
     const openFileDialog = (file) => {
-        picDialogState = true;
-        currentFile = file;
+        currentFile.set(file);
+    };
+    const openFile = () => {
+        curRoute.set("/p");
     };
 
     const upload = async () => {
@@ -57,10 +57,6 @@
         width: 10rem;
         height: 10rem;
     }
-    img.dialog {
-        height: 96vh;
-        width: 96vw;
-    }
 </style>
 <p>Galree id {param}</p>
 {#if $userIsLoggedIn}
@@ -72,21 +68,12 @@
     </p>
 
     {#each filesUrls as file, i}
-        <figure on:click={() => openFileDialog(file)}>
-            <img alt={file.filename} src="{file.thumbnail}" />
+        <figure>
+            <img on:click={() => openFileDialog(file)} alt={file.filename} src="{file.thumbnail}" />
+            <figcaption on:click={() => openFile(file)}>
+                {file.filename}
+            </figcaption>
         </figure>
     {/each}
     
-    <Dialog openState="{picDialogState}" background="--warning-color">
-        <div slot="btnContent">
-        </div>
-        <div slot="dlgContent" class="flex column" on:click={() => picDialogState = false}>
-            {#if picDialogState}
-                <img class="dialog" alt={currentFile.filename} src={currentFile.url} />
-            {/if}
-            <p>
-                <button on:click={() => picDialogState = false} icon="cancel" color="white">close</button>
-            </p>
-        </div>
-    </Dialog>
 {/if}

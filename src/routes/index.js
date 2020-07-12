@@ -7,6 +7,7 @@ import NotFound from "../views/404.svelte";
 
 import New from "../views/New.svelte";
 import Galree from "../views/Galree.svelte";
+import Picture from "../views/Picture.svelte";
 
 import service from "../services/galreeService";
 import pathBreaker from "../services/pathBreaker.js";
@@ -79,5 +80,9 @@ const routes = [
     {
         path: "g",
         component: Galree
+    },
+    {
+        path: "p",
+        component: Picture
     }
 ];

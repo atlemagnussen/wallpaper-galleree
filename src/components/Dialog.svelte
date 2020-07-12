@@ -17,16 +17,16 @@
         display: inline-block;
     }
     dialog {
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        left: 2rem;
+        top: 1vh;
+        left: 1vw;
+        right: 1vw;
+        bottom: 1vh;
         color: white;
         text-align: center;
         border: none;
         padding: 1rem;
         border-radius: 6px;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25);
+        /* box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25); */
         max-width: 98vw;
         max-height: 98vh;
         z-index: 900;
