@@ -86,7 +86,7 @@
     <div class="list">
         {#if $userIsLoggedIn}
             {#each filesUrls as file, i}
-                <div class="thumbnails" on:click={() => openFileDialog(file)} >
+                <div class="thumbnail" on:click={() => openFileDialog(file)} >
                     <Thumbnail name={file.name} url={file.thumbnail} />
                 </div>
             {/each}

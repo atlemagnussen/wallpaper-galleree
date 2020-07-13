@@ -1,0 +1,31 @@
+{
+    "short_name": "Galree",
+    "name": "https://wallpaper-galleree.web.app/",
+    "icons": [
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/wallpaper-galleree.appspot.com/o/assets%2Flogo48.png?alt=media",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/wallpaper-galleree.appspot.com/o/assets%2Flogo96.png?alt=media",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/wallpaper-galleree.appspot.com/o/assets%2Flogo192.png?alt=media",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/wallpaper-galleree.appspot.com/o/assets%2Flogo512.png?alt=media",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#607d8b",
+    "display": "fullscreen",
+    "scope": "/",
+    "theme_color": "#607d8b"
+}
