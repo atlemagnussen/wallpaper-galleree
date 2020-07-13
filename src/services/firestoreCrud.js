@@ -23,6 +23,8 @@ class FirestoreCrud {
     async get(colname, id) {
         const db = firebase.firestore();
         const docRef = await db.collection(colname).doc(id).get();
+        if (!docRef.exists)
+            return null;
         const doc = docRef.data();
         doc._id = id;
         return doc;
