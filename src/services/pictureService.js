@@ -32,9 +32,9 @@ const getFilesInfo = async (files) => {
     const promises = files.map(async fileRef => {
         let path = fileRef.location.path;
         const metadata = await fileRef.getMetadata();
-        const { name, size, contentType } = metadata;
+        const { name, size, contentType, updated } = metadata;
         return {
-            path, name, size, contentType
+            path, name, size, contentType, updated
         };
     });
     const res = Promise.all(promises);

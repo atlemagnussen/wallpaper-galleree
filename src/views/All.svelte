@@ -18,6 +18,6 @@
 <button on:click={list}>list</button>
 
 {#each files as file, i}
-    <p>{file.name} - {file.contentType}</p>
+    <p>{file.name} - {file.contentType} - {file.updated}</p>
 
 {/each}
