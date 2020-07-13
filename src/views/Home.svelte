@@ -27,3 +27,5 @@
 {:else}
     <h3>Not logged in</h3>
 {/if}
+
+<Link page="{{ path: "/all", name: "all"}}"></Link>

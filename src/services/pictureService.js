@@ -24,10 +24,21 @@ const listAllFiles = async () => {
     res.prefixes.forEach((folderRef) => {
         console.log(folderRef);
     });
-    res.items.forEach((itemRef) => {
-        console.log(itemRef);
-    });
+    const list = await getFilesInfo(res.items);
+    return list;
 };
 
+const getFilesInfo = async (files) => {
+    const promises = files.map(async fileRef => {
+        let path = fileRef.location.path;
+        const metadata = await fileRef.getMetadata();
+        const { name, size, contentType } = metadata;
+        return {
+            path, name, size, contentType
+        };
+    });
+    const res = Promise.all(promises);
+    return res;
+};
 
 export default { getThumbnailUrl, listAllFiles};
