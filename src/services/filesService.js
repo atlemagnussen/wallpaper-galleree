@@ -26,6 +26,16 @@ const find = async (id) => {
     return file;
 };
 
+const findByPath = async (path) => {
+    const files = await crud.getByProp(collName, "path", path);
+    if (files.length === 0)
+        return null;
+    if (files.length === 1)
+        return files[0];
+    return files;
+    
+};
+
 const addTag = async (id, tag) => {
     const file = await find(id);
     if (!file)
@@ -36,5 +46,5 @@ const addTag = async (id, tag) => {
     await crud.createOrUpdate(collName, file, id);
 };
 export default {
-    create, all, find, addTag
+    create, all, find, findByPath, addTag
 };

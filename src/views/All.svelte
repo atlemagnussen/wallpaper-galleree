@@ -7,9 +7,14 @@
     const list = async () => {
         try {
             files = await service.listAllFiles();
-            var first = files[0];
-            var test = await fileService.create(first);
-            console.log(test);
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const test = await fileService.findByPath(file.path);
+                if (!test) {
+                    const creat = await fileService.create(file);
+                    console.log(creat);
+                }
+            }
         } catch(ex) {
             console.log(ex);
         }

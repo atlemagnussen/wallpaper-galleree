@@ -29,6 +29,20 @@ class FirestoreCrud {
         doc._id = id;
         return doc;
     }
+    async getByProp(colname, prop, val) {
+        const db = firebase.firestore();
+        const colRef = db.collection(colname);
+        const docRefs = colRef.where(prop, "==", val);
+         
+        const docs = await docRefs.get();
+        const docsData = [];
+        docs.forEach((d) => {
+            const doc = d.data();
+            doc._id = d.id;
+            docsData.push(doc);
+        });
+        return docsData;
+    }
     async createOrUpdate(colname, data, id) {
         if (!data)
             throw new Error("No data to set");
