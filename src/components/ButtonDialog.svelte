@@ -1,7 +1,7 @@
 <script>
     let dialogEl;
     export let openState = false;
-    export let background = "--secondary-color";
+    export let background = "--mdc-theme-background";
     $: if (openState) {
         if (dialogEl && !dialogEl.open)
             dialogEl.showModal();
@@ -21,7 +21,6 @@
         left: 1vw;
         right: 1vw;
         bottom: 1vh;
-        color: white;
         text-align: center;
         border: none;
         padding: 1rem;
@@ -30,7 +29,6 @@
         max-width: 98vw;
         max-height: 98vh;
         z-index: 900;
-        background: white;
     }
 
     dialog::backdrop {
