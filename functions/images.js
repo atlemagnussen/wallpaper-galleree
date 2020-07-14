@@ -12,7 +12,7 @@ exports.generateThumbnailOnUpload = async (object) => {
     const bucketName = object.bucket;
     const path = object.name;
     const contentType = object.contentType;
-    console.log(object);
+    
     if (!contentType.startsWith("image/")) {
         return console.log("This is not an image.");
     }
@@ -20,23 +20,23 @@ exports.generateThumbnailOnUpload = async (object) => {
     const split = path.split("/");
     const root = split[0];
     const ownerId = split[1];
-    const filename = split[2];
+    const name = split[2];
 
     if (root !== "user")
         return console.log("This function is only for user uploaded pictures");
 
-    if (!ownerId || !filename)
+    if (!ownerId || !name)
         return console.log("missing owner or filename");
     
     console.log(`make thumbnail of ${path} and store it to ${bucketName}`);
 
-    const thumbnailPath = `${ownerId}/thumbnails/${filename}`;
+    const thumbnailPath = `user/${ownerId}/thumbnails/${name}`;
     console.log(`thumbnailFilePath=${thumbnailPath}`);
     
     try {
         await processing.genAndUploadThumbnail(bucketName, path, thumbnailPath)
-        const metadata = await processing.getMetaData(bucketName, path);
-        const { name, size, contentType, updated, md5Hash, generation } = metadata;
+        // const metadata = await processing.getMetaData(bucketName, path);
+        const { size, contentType, updated, md5Hash, generation } = object;
         const file = { name, size, contentType, updated, md5Hash, generation, path, ownerId };
         await data.saveFile(file);
     } catch(ex) {

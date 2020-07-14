@@ -41,7 +41,7 @@ const find = async (id) => {
 
 const addpictureToGalree = async (id, filename) => {
     const gal = await find(id);
-    if (!gal.files || !Array.isArray(gal.files))
+    if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
         gal.files = [];
     gal.files.push(filename);
 
@@ -51,17 +51,19 @@ const addpictureToGalree = async (id, filename) => {
 
 const getFilesData = async (id) => {
     const gal = await find(id);
-    if (!gal) return [];
+    if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
+        return [];
     const paths = gal.files.map(f => {
         return `user/${gal.ownerId}/${f}`;
     });
-    const files = fileService.manyByPath(paths);
+    const files = await fileService.manyByPath(paths);
     const filesData = await loadFilesUrls(files);
     return filesData;
 };
 
 const loadFilesUrls = async (files) => {
-    const promises = files.map(async name => {
+    const promises = files.map(async file => {
+        const { name } = file;
         const url = await getFileUrl(name);
         const thumbnail = await getFileUrl(name, "thumbnails");
         return {
@@ -76,11 +78,7 @@ const getFileUrl = async (name, subfolder) => {
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
     
-        const user = auth.getCurrentUser();
-        let path = `user/${user.uid}/${name}`;
-        if (subfolder)
-            path = `${user.uid}/${subfolder}/${name}`;
-        const url = await storage.get(path);
+        const url = await storage.getUrl(name, subfolder);
         return url;
     }
     return null;
@@ -90,15 +88,13 @@ const uploadFile = (id, filename, file) => {
 
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
-        const user = auth.getCurrentUser();
-        const path = `user/${user.uid}/${filename}`;
-        const uploadTask = storage.upload(path, file);
+        const uploadTask = storage.upload(filename, file);
         
         uploadTask.on("state_changed", (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(`Upload is ${progress}% done`);
         }, (error) => {
-            console.log(error);
+            console.error(error);
         }, async () => {
             await addpictureToGalree(id, filename);
             console.log("added pic to gal after upload");

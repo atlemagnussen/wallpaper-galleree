@@ -18,7 +18,7 @@ const listAllFiles = async () => {
         throw new Error("be logged in");
     }
     const storageRef = firebase.storage().ref();
-    const listRef = storageRef.child(up.id);
+    const listRef = storageRef.child(`user/${up.id}`);
     // Find all the prefixes and items.
     const res = await listRef.listAll();
     res.prefixes.forEach((folderRef) => {
