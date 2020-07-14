@@ -29,3 +29,4 @@
 {/if}
 
 <Link page="{{ path: "/all", name: "all"}}"></Link>
+<Link page="{{ path: "/tags", name: "tags"}}"></Link>
