@@ -79,11 +79,14 @@
                         <i class="material-icons mdc-button__icon" aria-hidden="true">library_add</i>
                     </button>
                 </div>
-                <div class="picframe" slot="dlgContent" on:click={() => uploadDialogState = false}>
+                <div class="picframe" slot="dlgContent" >
                     <div class="uploader">
                         <input type="file" bind:this={fileInput} on:change={upload} />
                         <span class="upload">Upload {uploadProgress}%</span>
                     </div>
+                    <p>
+                        <button on:click={() => uploadDialogState = false}>close</button>
+                    </p>
                 </div>
             </ButtonDialog>
         {/if}
