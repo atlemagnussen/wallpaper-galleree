@@ -53,10 +53,7 @@ const getFilesData = async (id) => {
     const gal = await find(id);
     if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
         return [];
-    const paths = gal.files.map(f => {
-        return `user/${gal.ownerId}/${f}`;
-    });
-    const files = await fileService.manyByPath(paths);
+    const files = await fileService.manyByName(gal.files);
     const filesData = await loadFilesUrls(files);
     return filesData;
 };

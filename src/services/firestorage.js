@@ -1,10 +1,13 @@
 import auth from "./authentication.js";
 
-const getUrl = async (name, subfolder) => {
+const userFolder = () => {
     const user = auth.getCurrentUser();
-
+    return `user/${user.uid}`;
+};
+const getUrl = async (name, subfolder) => {
     const storageRef = firebase.storage().ref();
-    let userRef = storageRef.child(`user/${user.uid}`);
+    const folder = userFolder();
+    let userRef = storageRef.child(folder);
 
     let fileRef = userRef.child(name);
     if (subfolder)
@@ -14,10 +17,9 @@ const getUrl = async (name, subfolder) => {
 
 };
 const upload = (name, file) => {
-    const user = auth.getCurrentUser();
-
     const storageRef = firebase.storage().ref();
-    const userRef = storageRef.child(`user/${user.uid}`);
+    const folder = userFolder();
+    let userRef = storageRef.child(folder);
     const fileRef = userRef.child(name);
     
     const uploadTask = fileRef.put(file);
@@ -25,5 +27,5 @@ const upload = (name, file) => {
 };
 
 export default {
-    getUrl, upload
+    getUrl, upload, userFolder
 };

@@ -1,5 +1,6 @@
-
 import crud from "./firestoreCrud.js";
+import storage from "./firestorage.js";
+
 const collName = "files";
 import { userIsLoggedIn } from "../store";
 
@@ -37,6 +38,19 @@ const manyByPath = async (paths) => {
     return all;
 };
 
+const manyByName = async (names) => {
+    let all = [];
+    for(let i = 0; i < names.length; i++) {
+        let name = names[i];
+        let path = `${storage.userFolder()}/${name}`;
+        let file = await findByPath(path);
+        if (file)
+            all.push(file);
+    }
+    return all;
+    
+};
+
 const findByPath = async (path) => {
     const files = await crud.getByProp(collName, "path", path);
     if (files.length === 0)
@@ -57,5 +71,5 @@ const addTag = async (id, tag) => {
     await crud.createOrUpdate(collName, file, id);
 };
 export default {
-    create, all, find, findByPath, addTag, manyByPath
+    create, all, find, findByPath, addTag, manyByPath, manyByName
 };
