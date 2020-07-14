@@ -26,10 +26,11 @@
         border: none;
         padding: 1rem;
         border-radius: 6px;
-        /* box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25); */
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25);
         max-width: 98vw;
         max-height: 98vh;
         z-index: 900;
+        background: white;
     }
 
     dialog::backdrop {

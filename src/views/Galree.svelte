@@ -3,9 +3,11 @@
     import { userIsLoggedIn, currentFile } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
+    import ButtonDialog from "../components/ButtonDialog.svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
     let fileInput;
 
+    let uploadDialogState = false;
     let uploadProgress = 0;
     const openFileDialog = (file) => {
         currentFile.set(file);
@@ -16,7 +18,6 @@
         const uploadTask = service.uploadFile(param, file.name, file);
         uploadTask.on("state_changed", (snapshot) => {
             uploadProgress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-            console.log(`Upload is ${uploadProgress}% done`);
             switch (snapshot.state) {
                 case firebase.storage.TaskState.PAUSED: // or 'paused'
                     console.log("Upload is paused");
@@ -29,7 +30,6 @@
             console.log(error);
         }, async () => {
             const url = await uploadTask.snapshot.ref.getDownloadURL();
-            console.log(`File available at ${url}`);
         });
     };
 
@@ -73,10 +73,19 @@
     <div class="header">
         <p>Galree id {param}</p>
         {#if $userIsLoggedIn}
-            <div class="uploader">
-                <input type="file" bind:this={fileInput} on:change={upload} />
-                <span class="upload">Upload {uploadProgress}%</span>
-            </div>
+            <ButtonDialog openState="{uploadDialogState}">
+                <div slot="btnContent">
+                    <button on:click={() => uploadDialogState = true}>
+                        <i class="material-icons mdc-button__icon" aria-hidden="true">library_add</i>
+                    </button>
+                </div>
+                <div class="picframe" slot="dlgContent" on:click={() => uploadDialogState = false}>
+                    <div class="uploader">
+                        <input type="file" bind:this={fileInput} on:change={upload} />
+                        <span class="upload">Upload {uploadProgress}%</span>
+                    </div>
+                </div>
+            </ButtonDialog>
         {/if}
     </div>
     <div class="list">
@@ -90,4 +99,3 @@
         {/if}
     </div>
 </article>
-

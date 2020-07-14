@@ -2,6 +2,7 @@
     import { onMount, onDestroy } from "svelte";
     import { userIsLoggedIn } from "../store";
     import service from "../services/tagService.js";
+    import Tag from "../components/Tag.svelte";
     let newTagName, newTagColor;
     let tags = [];
     let unsub;
@@ -24,7 +25,11 @@
         }
     }
 </script>
-
+<style>
+    form {
+        margin-bottom: 1rem;
+    }
+</style>
 <h1>Tags</h1>
 {#if $userIsLoggedIn}
     <form>
@@ -38,5 +43,7 @@
         </p>
         <button on:click={create}>Add new tag</button>
     </form>
-
+    {#each tags as tag, i}
+        <Tag tag={tag} />
+    {/each}
 {/if}

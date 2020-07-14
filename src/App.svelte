@@ -78,7 +78,7 @@
     
     <Container />
     <Spinner />
-    <Dialog openState="{picDialogState}" background="--warning-color">
+    <Dialog openState="{picDialogState}">
         <div class="picframe" slot="dlgContent" on:click={() => picDialogState = false}>
             <Picture />
         </div>

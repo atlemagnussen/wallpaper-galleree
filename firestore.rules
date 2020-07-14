@@ -14,5 +14,10 @@ service cloud.firestore {
             allow create: if request.auth.uid != null;
             allow read: if true;
         }
+        match /tags/{document} {
+            allow update, delete: if resource.data.ownerId == request.auth.uid;
+            allow create: if request.auth.uid != null;
+            allow read: if true;
+        }
     }
 }
