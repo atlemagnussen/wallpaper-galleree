@@ -2,6 +2,7 @@
 // const storage = new Storage();
 const sharp = require("sharp");
 const admin = require("./adminInit.js");
+const data = require("./data.js");
 const escapeHtml = require("escape-html");
 const cors = require("./cors.js");
 const processing = require("./imageProcessing.js");
@@ -9,26 +10,35 @@ const processing = require("./imageProcessing.js");
 exports.generateThumbnailOnUpload = async (object) => {
     console.log("generateThumbnailOnUpload");
     const bucketName = object.bucket;
-    const filePath = object.name;
+    const path = object.name;
     const contentType = object.contentType;
-
+    console.log(object);
     if (!contentType.startsWith("image/")) {
         return console.log("This is not an image.");
     }
 
-    const split = filePath.split("/");
-    const ownerId = split[0];
-    const filename = split[1];
+    const split = path.split("/");
+    const root = split[0];
+    const ownerId = split[1];
+    const filename = split[2];
+
+    if (root !== "user")
+        return console.log("This function is only for user uploaded pictures");
+
     if (!ownerId || !filename)
         return console.log("missing owner or filename");
     
-    console.log(`make thumbnail of ${filePath} and store it to ${bucketName}`);
+    console.log(`make thumbnail of ${path} and store it to ${bucketName}`);
 
-    const thumbnailFilePath = `${ownerId}/thumbnails/${filename}`;
-    console.log(`thumbnailFilePath=${thumbnailFilePath}`);
+    const thumbnailPath = `${ownerId}/thumbnails/${filename}`;
+    console.log(`thumbnailFilePath=${thumbnailPath}`);
     
     try {
-        await processing.genAndUploadThumbnail(bucketName, filePath, thumbnailFilePath)
+        await processing.genAndUploadThumbnail(bucketName, path, thumbnailPath)
+        const metadata = await processing.getMetaData(bucketName, path);
+        const { name, size, contentType, updated, md5Hash, generation } = metadata;
+        const file = { name, size, contentType, updated, md5Hash, generation, path, ownerId };
+        await data.saveFile(file);
     } catch(ex) {
         console.log(ex);
     }

@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import service from "../services/pictureService.js";
-    import fileService from "../services/filesService.js";
+    import fileService from "../services/fileService.js";
 
     let files = [];
     const list = async () => {

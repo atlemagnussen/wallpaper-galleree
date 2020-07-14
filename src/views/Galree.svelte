@@ -33,25 +33,21 @@
         });
     };
 
-    let filesUrls = [];
+    let filesData = [];
     
     const loadFiles = async () => {
-        const res = await service.getFilesUrls(param);
-        filesUrls = res;
+        filesData = await service.getFilesData(param);
         //loadThumbnailUrls(res);
     };
 
     let unsubLoggedIn;
     onMount(() => {
-        // fileInput.addEventListener("change", (e) => {
-        //     const file = e.target.files[0];
-        //     console.log(`new file uploading ${file.name}`);
-        // });
+        
         unsubLoggedIn = userIsLoggedIn.subscribe(val => {
             if (val)
                 loadFiles();
             else
-                filesUrls = [];
+                filesData = [];
         });
     });
     onDestroy(() => {
@@ -85,7 +81,7 @@
     </div>
     <div class="list">
         {#if $userIsLoggedIn}
-            {#each filesUrls as file, i}
+            {#each filesData as file, i}
                 <div class="thumbnail" on:click={() => openFileDialog(file)} >
                     <Thumbnail name={file.name} url={file.thumbnail} />
                 </div>

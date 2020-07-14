@@ -23,4 +23,15 @@ const genAndUploadThumbnail = (bucketName, orgFilePath, thumbFilePath) => {
     });
 };
 
+const getMetaData = (bucketName, filePath) => {
+    const bucket = admin.storage().bucket(bucketName);
+    const file = bucket.file(filePath);
+    const fileExists = await file.exists();
+    if (!fileExists[0])
+        reject(`org file ${filePath} does not exists`);
+    const metadata = await file.getMetadata();
+    return metadata[0];
+};
+
 exports.genAndUploadThumbnail = genAndUploadThumbnail;
+exports.getMetaData = getMetaData;

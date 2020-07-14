@@ -2,6 +2,8 @@
 import auth from "./authentication.js";
 import crud from "./firestoreCrud.js";
 import storage from "./firestorage.js";
+import fileService from "./fileService.js";
+
 const collName = "galleries";
 import { userIsLoggedIn, galleriesStore } from "../store";
 
@@ -44,17 +46,18 @@ const addpictureToGalree = async (id, filename) => {
     gal.files.push(filename);
 
     await crud.createOrUpdate(collName, gal);
-    //const galleries = galleriesStore.get();
-    // const planOrg = plans.find(p => p._id === plan._id);
-    // Object.assign(planOrg, plan); // merge
     return gal;
 };
 
-const getFilesUrls = async (id) => {
+const getFilesData = async (id) => {
     const gal = await find(id);
     if (!gal) return [];
-    const urls = await loadFilesUrls(gal.files);
-    return urls;
+    const paths = gal.files.map(f => {
+        return `user/${gal.ownerId}/${f}`;
+    });
+    const files = fileService.manyByPath(paths);
+    const filesData = await loadFilesUrls(files);
+    return filesData;
 };
 
 const loadFilesUrls = async (files) => {
@@ -69,14 +72,14 @@ const loadFilesUrls = async (files) => {
     return res;
 };
 
-const getFileUrl = async (id, subfolder) => {
+const getFileUrl = async (name, subfolder) => {
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
     
         const user = auth.getCurrentUser();
-        let path = `${user.uid}/${id}`;
+        let path = `user/${user.uid}/${name}`;
         if (subfolder)
-            path = `${user.uid}/${subfolder}/${id}`;
+            path = `${user.uid}/${subfolder}/${name}`;
         const url = await storage.get(path);
         return url;
     }
@@ -88,7 +91,7 @@ const uploadFile = (id, filename, file) => {
     const isLoggedIn = userIsLoggedIn.get();
     if (isLoggedIn) {
         const user = auth.getCurrentUser();
-        const path = `${user.uid}/${filename}`;
+        const path = `user/${user.uid}/${filename}`;
         const uploadTask = storage.upload(path, file);
         
         uploadTask.on("state_changed", (snapshot) => {
@@ -106,5 +109,5 @@ const uploadFile = (id, filename, file) => {
 };
 
 export default {
-    create, all, find, getFileUrl, uploadFile, getFilesUrls
+    create, all, find, getFileUrl, uploadFile, getFilesData
 };
