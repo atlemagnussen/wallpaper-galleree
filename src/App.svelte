@@ -8,7 +8,7 @@
     import Link from "./components/Link.svelte";
     import Login from "./components/LoginMenu.svelte";
     import ThemeToggle from "./components/ThemeToggle.svelte";
-    import Spinner from "./components/Spinner.svelte";
+    import GlobalSpinner from "./components/GlobalSpinner.svelte";
     import Dialog from "./components/Dialog.svelte";
     import Picture from "./views/Picture.svelte";
     import Container from "./Container.svelte";
@@ -77,7 +77,7 @@
     </header>
     
     <Container />
-    <Spinner />
+    <GlobalSpinner />
     <Dialog openState="{picDialogState}">
         <div class="picframe" slot="dlgContent" on:click={() => picDialogState = false}>
             <Picture />
