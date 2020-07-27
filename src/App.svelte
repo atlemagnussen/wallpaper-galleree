@@ -81,7 +81,7 @@
     <GlobalSpinner />
     <Dialog openState="{picDialogState}">
         <div class="picframe" slot="dlgContent" on:click={() => picDialogState = false}>
-            <Picture />
+            <Picture rightClick={state.next} leftClick={state.prev}/>
         </div>
     </Dialog>
 </main>

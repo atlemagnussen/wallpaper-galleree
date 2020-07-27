@@ -28,7 +28,7 @@ currentFile.subscribe(val => {
         const gal = currentGallery.get();
         if (gal && Array.isArray(gal.items) && gal.items.length > 0) {
             curIndex = gal.items.findIndex((item) => {
-                return item.name === curFile;
+                return item.name === curFile.name;
             });
         }
     }
@@ -36,14 +36,24 @@ currentFile.subscribe(val => {
 
 const next = () => {
     const gal = currentGallery.get();
-    if (gal && Array.isArray(gal.items) && gal.items.length > 0 && curIndex) {
+    if (gal && Array.isArray(gal.items) && gal.items.length > 0 && curIndex !== null) {
         if (gal.items.length -1 > curIndex) {
             const file = gal.items[curIndex + 1];
-            currentFile.set(file.name);
+            currentFile.set(file);
+        }
+    }
+};
+const prev = () => {
+    const gal = currentGallery.get();
+    if (gal && Array.isArray(gal.items) && gal.items.length > 0 && curIndex !== null) {
+        if (curIndex > 0) {
+            const file = gal.items[curIndex - 1];
+            currentFile.set(file);
         }
     }
 };
 export default {
     setCurrentGallery,
-    next
+    next,
+    prev
 };
