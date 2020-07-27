@@ -24,6 +24,7 @@
         margin: 0;
         border: 1px solid var(--mdc-theme-background);
         box-sizing: border-box;
+        background: transparent;
     }
     .dlgContent {
         background: red;

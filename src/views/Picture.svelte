@@ -2,7 +2,12 @@
     import { onMount } from "svelte";
     import { userIsLoggedIn, currentFile } from "../store";
     import Spinner from "../components/Spinner.svelte";
+    import FloatingCircle from "../components/FloatingCircle.svelte";
+    import ArrowRight from "../components/ArrowRight.svelte";
+    import ArrowLeft from "../components/ArrowLeft.svelte";
     let loading = false;
+    export let next = () => { console.log("next"); };
+    export let prev = () => { console.log("prev"); };
     onMount(() => {
         currentFile.subscribe(val => {
             console.log(val);
@@ -46,11 +51,18 @@
         object-fit: contain;
         /*object-fit: scale-down;*/
     }
+    
 </style>
 {#if $userIsLoggedIn}
     <div class="{ loading ? 'show' : '' }">
         <Spinner />
     </div>
+    <FloatingCircle float="left" on:click={prev}>
+        <ArrowLeft />
+    </FloatingCircle>
+    <FloatingCircle> on:click={next}
+        <ArrowRight/>
+    </FloatingCircle>
     <figure class="{ loading ? '' : 'show' }">
         <figcaption>{$currentFile.name}</figcaption>
         <img class="dialog" alt={$currentFile.name} src={$currentFile.url} on:load={loaded} />
