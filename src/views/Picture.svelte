@@ -6,8 +6,25 @@
     import ArrowRight from "../components/ArrowRight.svelte";
     import ArrowLeft from "../components/ArrowLeft.svelte";
     let loading = false;
-    export let next = () => { console.log("next"); };
-    export let prev = () => { console.log("prev"); };
+
+    export let rightClick = () => {
+        return;
+    };
+    export let leftClick = () => {
+        return;
+    };
+    const next = (e) => { 
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("next");
+        rightClick();
+    };
+    const prev = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("prev");
+        leftClick();
+    };
     onMount(() => {
         currentFile.subscribe(val => {
             console.log(val);
@@ -60,7 +77,7 @@
     <FloatingCircle float="left" on:click={prev}>
         <ArrowLeft />
     </FloatingCircle>
-    <FloatingCircle> on:click={next}
+    <FloatingCircle on:click={next}>
         <ArrowRight/>
     </FloatingCircle>
     <figure class="{ loading ? '' : 'show' }">
