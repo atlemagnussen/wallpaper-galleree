@@ -13,6 +13,7 @@ import Tags from "../views/Tags.svelte";
 
 import service from "../services/galreeService";
 import pathBreaker from "../services/pathBreaker.js";
+import state from "../store/state.js";
 export const findComponent = async (path) => {
     const r = await findRoute(path);
     return r.component;
@@ -30,6 +31,9 @@ export const findRoute = async (fullpath) => {
     }
         
     const r = route[0];
+    if (r.init) {
+        r.init(bRoute.param);
+    }
     return {
         path: r.path,
         component: r.component,
@@ -81,7 +85,8 @@ const routes = [
     },
     {
         path: "g",
-        component: Galree
+        component: Galree,
+        init: (id) => state.setCurrentGallery(id)
     },
     {
         path: "p",

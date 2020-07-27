@@ -1,5 +1,4 @@
 
-import auth from "./authentication.js";
 import crud from "./firestoreCrud.js";
 import storage from "./firestorage.js";
 import fileService from "./fileService.js";

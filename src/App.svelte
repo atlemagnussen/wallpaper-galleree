@@ -3,6 +3,7 @@
     import { curRoute, curSearchParam, docTitle, isSpinning, isDarkTheme, userIsLoggedIn, currentFile } from "./store";
     curSearchParam.set(window.location.search);
     docTitle.set(name);
+    import state from "./store/state.js";
     import "./services/pagestate.js";
     import "./services/userprofile.js";
     import Link from "./components/Link.svelte";

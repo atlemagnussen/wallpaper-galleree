@@ -18,14 +18,17 @@ const createGettableWritableStore = (initialVal) => {
     };
     return { subscribe, set: newSet, update, get };
 };
-export const userIsLoggedIn = createGettableWritableStore(false);
-export const userProfile = createGettableWritableStore({ loggedIn: false, name: "Anon", initials: "U" });
-export const galleriesStore = createGettableWritableStore([]);
-export const tagsStore = createGettableWritableStore([]);
+
 export const currentFile = createGettableWritableStore( {
     filename: "dummy",
     url: "/assets/galree.jpg"
 });
+export const currentGallery = createGettableWritableStore({ id: "none", items: []});
+
+export const userIsLoggedIn = createGettableWritableStore(false);
+export const userProfile = createGettableWritableStore({ loggedIn: false, name: "Anon", initials: "U" });
+export const galleriesStore = createGettableWritableStore([]);
+export const tagsStore = createGettableWritableStore([]);
 
 const createGettableAppendableWriteableStore = (initialVal) => {
     let val = initialVal;

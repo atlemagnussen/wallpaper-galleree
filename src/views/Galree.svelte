@@ -1,6 +1,6 @@
 <script>
     export let param;
-    import { userIsLoggedIn, currentFile } from "../store";
+    import { userIsLoggedIn, currentFile, currentGallery } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
@@ -32,28 +32,6 @@
             const url = await uploadTask.snapshot.ref.getDownloadURL();
         });
     };
-
-    let filesData = [];
-    
-    const loadFiles = async () => {
-        filesData = await service.getFilesData(param);
-        //loadThumbnailUrls(res);
-    };
-
-    let unsubLoggedIn;
-    onMount(() => {
-        
-        unsubLoggedIn = userIsLoggedIn.subscribe(val => {
-            if (val)
-                loadFiles();
-            else
-                filesData = [];
-        });
-    });
-    onDestroy(() => {
-        if (unsubLoggedIn)
-            unsubLoggedIn();
-    });
 
 </script>
 
@@ -93,7 +71,7 @@
     </div>
     <div class="list">
         {#if $userIsLoggedIn}
-            {#each filesData as file, i}
+            {#each $currentGallery.items as file, i}
                 <div class="thumbnail" on:click={() => openFileDialog(file)} >
                     <Thumbnail name={file.name} url={file.thumbnail} />
                 </div>
