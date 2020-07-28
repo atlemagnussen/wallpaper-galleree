@@ -1,12 +1,13 @@
 <script>
     import { onMount } from "svelte";
     import { userIsLoggedIn, currentFile } from "../store";
+    import Touch from "../services/touch.js";
     import Spinner from "../components/Spinner.svelte";
     import FloatingCircle from "../components/FloatingCircle.svelte";
     import ArrowRight from "../components/ArrowRight.svelte";
     import ArrowLeft from "../components/ArrowLeft.svelte";
     let loading = false;
-
+    let wrapperEl;
     export let rightClick = () => {
         return;
     };
@@ -33,6 +34,8 @@
                 loading = true;
             }
         });
+
+        new Touch(wrapperEl, leftClick, rightClick);
     });
 
     const loaded = () => {
@@ -42,9 +45,13 @@
 </script>
 
 <style>
+    div.wrapper {
+        display:block;
+        height: 100%;
+    }
     div {
         display: none;
-    }
+    }    
     div.show {
         display: block;
     }
@@ -70,6 +77,7 @@
     }
     
 </style>
+<div class="wrapper" bind:this={wrapperEl}>
 {#if $userIsLoggedIn}
     <div class="{ loading ? 'show' : '' }">
         <Spinner />
@@ -85,3 +93,4 @@
         <img class="dialog" alt={$currentFile.name} src={$currentFile.url} on:load={loaded} />
     </figure>
 {/if}
+</div>
