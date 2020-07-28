@@ -32,6 +32,19 @@
             if (val.filename !== "dummy")
                 picDialogState = true;
         });
+
+        document.addEventListener("keydown", (evt) => {
+            if (!picDialogState)
+                return;
+            switch (evt.keyCode) {
+                case 37:
+                    state.prev();
+                    break;
+                case 39:
+                    state.next();
+                    break;
+            }
+        });
     });
     const handlerBackNavigation = (event) => {
         curRoute.set(event.state.path);

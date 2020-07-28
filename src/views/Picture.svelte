@@ -39,7 +39,6 @@
     });
 
     const loaded = () => {
-        console.log("not loading");
         loading = false;
     };
 </script>
