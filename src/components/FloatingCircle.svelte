@@ -35,6 +35,11 @@
         border: 1px solid white;
         box-shadow: 2px 2px 3px #999;
     }
+    @media only screen and (max-width: 640px) {
+        div.float-wrapper {
+            display: none;
+        }
+    }
 </style>
 <div class="float-wrapper {float}" on:click>
     <span class="float">
