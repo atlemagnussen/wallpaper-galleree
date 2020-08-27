@@ -40,8 +40,8 @@
 {#if $userProfile.loggedIn}
     <h3>Userprofile for {$userProfile.email}</h3>
     <form>
-        <label>Name</label>
-        <input bind:value="{name}" placeholder="Name" />
+        <label for="textName">Name</label>
+        <input bind:value="{name}" placeholder="Name" id="textName" />
         <br />
         <button on:click|preventDefault="{updateUserProfile}">Lagre</button>
     </form>
