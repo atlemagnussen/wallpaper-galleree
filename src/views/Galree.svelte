@@ -3,7 +3,7 @@
     import { userIsLoggedIn, currentFile, currentGallery } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
-    import DialogDelete from "../components/Dialog.svelte";
+    import DialogDelete from "../components/DialogPrompt.svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
     import PopDown from "../components/PopDown.svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
@@ -72,6 +72,8 @@
         flex-flow: row-reverse;
     }
     .delete-dialog-content {
+        display: flex;
+        flex-direction: column;
         height: 100%;
     }
 </style>
@@ -123,11 +125,11 @@
         {/if}
     </div>
 </article>
-<DialogDelete openState="{deleteDialogState}" background="--warning-color">
+<DialogDelete openState="{deleteDialogState}">
     <div slot="btnContent">
         
     </div>
-    <div slot="dlgContent" class="flex column delete-dialog-content">
+    <div slot="dlgContent" class="flex column delete-dialog">
         <div>
             Really delete plan {fileToBeDeleted.name}?
         </div>
