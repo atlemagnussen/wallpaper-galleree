@@ -34,7 +34,7 @@
     }
 </style>
 {#if $userIsLoggedIn}
-    <figure>
+    <figure on:click>
         <img class="dialog" alt={name} src={url} />
     </figure>
 {/if}

@@ -4,6 +4,7 @@
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
+    import PopDown from "../components/PopDown.svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
     let fileInput;
 
@@ -33,6 +34,10 @@
         });
     };
 
+    let deleteFile = (file) => {
+        console.log(file);
+    };
+
 </script>
 
 <style>
@@ -45,7 +50,19 @@
         display: flex;
         flex-direction: column;
     }
-
+    span.menu {
+        font-size: large;
+        display: inline-block;
+        margin-left: auto;
+    }
+    .menu-content {
+        background: white;
+    }
+    .menu-row {
+        display: flex;
+        flex-direction: row;
+        flex-flow: row-reverse;
+    }
 </style>
 <article>
     <div class="header">
@@ -72,8 +89,23 @@
     <div class="list">
         {#if $userIsLoggedIn}
             {#each $currentGallery.items as file, i}
-                <div class="thumbnail" on:click={() => openFileDialog(file)} >
-                    <Thumbnail name={file.name} url={file.thumbnail} />
+                <div class="thumbnail" >
+                    <div class="menu-row">
+                        <PopDown>
+                            <div slot="btnContent">
+                                <span class="menu">...</span>
+                            </div>
+                            <div slot="dlgContent" class="flex column menu-content">
+                                <div>
+                                    {file.name}
+                                </div>
+                                <div on:click={() => deleteFile(file)}>
+                                    delete?
+                                </div>
+                            </div>
+                        </PopDown>
+                    </div>
+                    <Thumbnail name={file.name} url={file.thumbnail} on:click={() => openFileDialog(file)} />
                 </div>
             {/each}
     

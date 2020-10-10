@@ -6,7 +6,7 @@
     "scripts": {
         "build": "rollup -c",
         "dev": "rollup -c -w",
-        "start": "sirv public --port 8000",
+        "start": "npm run dev",
         "deploy": "rollup -c && firebase deploy"
     },
     "keywords": [

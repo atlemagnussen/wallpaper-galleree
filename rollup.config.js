@@ -33,6 +33,7 @@ export default {
 
         !production && serve({
             contentBase: "public",
+            open: true,
             host: "localhost",
             port: 8000,
             historyApiFallback: true,
