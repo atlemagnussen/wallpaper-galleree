@@ -38,6 +38,10 @@ const find = async (id) => {
     return gal;
 };
 
+const findByName = async(name) => {
+
+};
+
 const addpictureToGalree = async (id, filename) => {
     const gal = await find(id);
     if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
@@ -100,6 +104,26 @@ const uploadFile = (id, filename, file) => {
     return null;
 };
 
+const removeAndDeleteFile = async (galreeId, filename) => {
+    const isLoggedIn = userIsLoggedIn.get();
+    if (isLoggedIn) {
+        const gal = await find(galreeId);
+        const reducedFiles = gal.files.reduce((arr, f) => {
+            if (f !== filename)
+                arr.push(f);
+            return arr;
+        }, []);
+
+        gal.files = reducedFiles;
+        await crud.createOrUpdate(collName, gal);
+
+        await fileService.deleteByFileName(filename);
+        const res = storage.delete(filename);
+        return res;
+    }
+    return false;
+};
+
 export default {
-    create, all, find, getFileUrl, uploadFile, getFilesData
+    create, all, find, getFileUrl, uploadFile, getFilesData, removeAndDeleteFile
 };

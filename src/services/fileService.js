@@ -27,6 +27,13 @@ const find = async (id) => {
     return file;
 };
 
+const findByName = async (name) => {
+    const files = await crud.getByProp(collName, "name", name);
+    if (files && Array.isArray(files) && files.length > 0)
+        return files[0];
+    return null;
+};
+
 const manyByPath = async (paths) => {
     let all = [];
     for(let i = 0; i < paths.length; i++) {
@@ -70,6 +77,14 @@ const addTag = async (id, tag) => {
     file.tags.push(tag);
     await crud.createOrUpdate(collName, file, id);
 };
+
+const deleteByFileName = async (name) => {
+    const file = await findByName(name);
+    if (file) {
+        const rd = await crud.delete(collName, file._id);
+        console.log(rd);
+    }
+};
 export default {
-    create, all, find, findByPath, addTag, manyByPath, manyByName
+    create, all, find, findByPath, deleteByFileName, addTag, manyByPath, manyByName
 };

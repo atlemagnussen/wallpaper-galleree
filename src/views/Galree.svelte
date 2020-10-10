@@ -3,13 +3,15 @@
     import { userIsLoggedIn, currentFile, currentGallery } from "../store";
     import service from "../services/galreeService.js";
     import { onMount, onDestroy } from "svelte";
+    import DialogDelete from "../components/Dialog.svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
     import PopDown from "../components/PopDown.svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
     let fileInput;
-
+    let deleteDialogState = false;
     let uploadDialogState = false;
     let uploadProgress = 0;
+
     const openFileDialog = (file) => {
         currentFile.set(file);
     };
@@ -34,9 +36,15 @@
         });
     };
 
-    let deleteFile = (file) => {
-        console.log(file);
+    let fileToBeDeleted = { name: "" }
+    let showDeleteFileDialog = (file) => {
+        deleteDialogState = true;
+        fileToBeDeleted = file;
     };
+    let deleteFile = async () => {
+        const res = await service.removeAndDeleteFile(param, fileToBeDeleted.name)
+        deleteDialogState = false;
+    }
 
 </script>
 
@@ -62,6 +70,9 @@
         display: flex;
         flex-direction: row;
         flex-flow: row-reverse;
+    }
+    .delete-dialog-content {
+        height: 100%;
     }
 </style>
 <article>
@@ -99,7 +110,7 @@
                                 <div>
                                     {file.name}
                                 </div>
-                                <div on:click={() => deleteFile(file)}>
+                                <div on:click={() => showDeleteFileDialog(file)}>
                                     delete?
                                 </div>
                             </div>
@@ -112,3 +123,18 @@
         {/if}
     </div>
 </article>
+<DialogDelete openState="{deleteDialogState}" background="--warning-color">
+    <div slot="btnContent">
+        
+    </div>
+    <div slot="dlgContent" class="flex column delete-dialog-content">
+        <div>
+            Really delete plan {fileToBeDeleted.name}?
+        </div>
+        <p>Really?</p>
+        <p>
+            <button on:click="{() => deleteDialogState = false}" icon="cancel" color="white">Cancel</button>
+            <button on:click="{deleteFile}" icon="delete">Delete</button>
+        </p>
+    </div>
+</DialogDelete>

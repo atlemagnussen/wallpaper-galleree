@@ -26,6 +26,16 @@ const upload = (name, file) => {
     return uploadTask;
 };
 
+const remove = async (name) => {
+    const storageRef = firebase.storage().ref();
+    const folder = userFolder();
+    let userRef = storageRef.child(folder);
+    const fileRef = userRef.child(name);
+
+    const res = await fileRef.delete();
+    return res;
+};
+
 export default {
-    getUrl, upload, userFolder
+    getUrl, upload, delete: remove, userFolder
 };
