@@ -41,13 +41,19 @@
         e.preventDefault();
         isDraggingOver = true;
     }
+    const onDragLeave = (e) => {
+        e.preventDefault();
+        isDraggingOver = false;
+    };
     onMount(() => {
         dropZoneEl.addEventListener("drop", onDrop);
         dropZoneEl.addEventListener("dragover", onDragOver);
+        dropZoneEl.addEventListener("dragleave", onDragLeave);
     });
     onDestroy(() => {
         dropZoneEl.removeEventListener("drop", onDrop);
         dropZoneEl.removeEventListener("dragover", onDragOver);
+        dropZoneEl.removeEventListener("dragleave", onDragLeave);
     });
 
     const uploadFromInput = () => {
