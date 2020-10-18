@@ -51,11 +51,6 @@
         flex-direction: row;
         flex-flow: row-reverse;
     }
-    .delete-dialog-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
 </style>
 <article>
     <div class="header">
