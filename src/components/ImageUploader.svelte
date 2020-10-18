@@ -27,10 +27,15 @@
             }
         } else {
             for (let i = 0; i < ev.dataTransfer.files.length; i++) {
+                let file = ev.dataTransfer.files[i];
                 uploadFile(file);
             }
         }
         isDraggingOver = false;
+    };
+    const onDragEnter = (e) => {
+        e.preventDefault();
+        isDraggingOver = true;
     };
     const onDragOver = (e) => {
         e.preventDefault();
@@ -42,11 +47,13 @@
     };
     onMount(() => {
         dropZoneEl.addEventListener("drop", onDrop);
+        dropZoneEl.addEventListener("dragenter", onDragEnter);
         dropZoneEl.addEventListener("dragover", onDragOver);
         dropZoneEl.addEventListener("dragleave", onDragLeave);
     });
     onDestroy(() => {
         dropZoneEl.removeEventListener("drop", onDrop);
+        dropZoneEl.removeEventListener("dragenter", onDragEnter);
         dropZoneEl.removeEventListener("dragover", onDragOver);
         dropZoneEl.removeEventListener("dragleave", onDragLeave);
     });

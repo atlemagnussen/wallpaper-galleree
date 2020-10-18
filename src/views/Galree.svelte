@@ -51,6 +51,10 @@
         flex-direction: row;
         flex-flow: row-reverse;
     }
+    .action:hover {
+        background: var(--mdc-theme-primary);
+        color: var(--mdc-theme-text-secondary-on-dark);
+    }
 </style>
 <article>
     <div class="header">
@@ -78,10 +82,10 @@
                                 <span class="menu">...</span>
                             </div>
                             <div slot="dlgContent" class="flex column menu-content">
-                                <div>
+                                <div class="action">
                                     {file.name}
                                 </div>
-                                <div on:click={() => showDeleteFileDialog(file)}>
+                                <div on:click={() => showDeleteFileDialog(file)} class="action">
                                     delete?
                                 </div>
                             </div>

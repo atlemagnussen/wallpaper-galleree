@@ -19,7 +19,7 @@
         visibility: hidden;
         z-index: -2;
         position: fixed;
-        background-color: var(--background-color);
+        background-color: var(--mdc-theme-background);
         left: 2rem;
         color: black;
         text-align: center;
