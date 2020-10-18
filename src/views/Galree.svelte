@@ -2,38 +2,18 @@
     export let param;
     import { userIsLoggedIn, currentFile, currentGallery } from "../store";
     import service from "../services/galreeService.js";
-    import { onMount, onDestroy } from "svelte";
+    // import { onMount, onDestroy } from "svelte";
     import DialogDelete from "../components/DialogPrompt.svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
     import PopDown from "../components/PopDown.svelte";
     import Thumbnail from "../components/Thumbnail.svelte";
-    let fileInput;
+    import ImageUploader from "../components/ImageUploader.svelte";
+
     let deleteDialogState = false;
     let uploadDialogState = false;
-    let uploadProgress = 0;
 
     const openFileDialog = (file) => {
         currentFile.set(file);
-    };
-
-    const upload = async () => {
-        const file = fileInput.files[0];
-        const uploadTask = service.uploadFile(param, file.name, file);
-        uploadTask.on("state_changed", (snapshot) => {
-            uploadProgress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-            switch (snapshot.state) {
-                case firebase.storage.TaskState.PAUSED: // or 'paused'
-                    console.log("Upload is paused");
-                    break;
-                case firebase.storage.TaskState.RUNNING: // or 'running'
-                    console.log("Upload is running");
-                    break;
-            }
-        }, (error) => {
-            console.log(error);
-        }, async () => {
-            const url = await uploadTask.snapshot.ref.getDownloadURL();
-        });
     };
 
     let fileToBeDeleted = { name: "" }
@@ -88,13 +68,7 @@
                     </button>
                 </div>
                 <div class="picframe" slot="dlgContent" >
-                    <div class="uploader">
-                        <input type="file" bind:this={fileInput} on:change={upload} />
-                        <span class="upload">Upload {uploadProgress}%</span>
-                    </div>
-                    <p>
-                        <button on:click={() => uploadDialogState = false}>close</button>
-                    </p>
+                    <ImageUploader onClose={() => uploadDialogState = false} galreeId={param} />
                 </div>
             </ButtonDialog>
         {/if}
