@@ -5,6 +5,7 @@
     export let galreeId;
     let uploadProgress = 0;
     let fileInput;
+    let uploadedItems = [];
 
     let isDraggingOver = false;
     let dropZoneEl;
@@ -79,6 +80,9 @@
             console.log(error);
         }, async () => {
             const url = await uploadTask.snapshot.ref.getDownloadURL();
+            const sizeMb = (file.size / 1024) / 1024;
+            const size = sizeMb.toFixed(2);
+            uploadedItems = [...uploadedItems, { name: file.name, size }];
         });
     };
 </script>
@@ -107,6 +111,14 @@
         outline: 2px dashed var(--mdc-theme-primary);
         background-color: var(--mdc-theme-secondary);
     }
+    #upload-log {
+        color: var(--mdc-theme-secondary);
+    }
+    .uploaded-item {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
 <div class="uploader">
@@ -115,6 +127,13 @@
 </div>
 <div id="drop-zone" bind:this={dropZoneEl} class:drag-over={isDraggingOver}>
     <div>Drop files here</div>
+</div>
+<div id="upload-log">
+    {#each uploadedItems as file, i}
+        <p class="uploaded-item">
+            {file.name} ({file.size}mb)
+        </p>
+    {/each}
 </div>
 <p>
     <button on:click={close}>close</button>
