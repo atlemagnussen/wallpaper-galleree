@@ -12,9 +12,11 @@ const setCurrentGallery = async (id) => {
 
 const loadData = async () => {
     const gal = { id: galId };
-    const items = await service.getFilesData(galId);
-    gal.items = items;
-    currentGallery.set(gal);
+    await service.getFilesData(galId, (items) => {
+        gal.items = items;
+        currentGallery.set(gal);
+    });
+    
 };
 
 userIsLoggedIn.subscribe(val => {

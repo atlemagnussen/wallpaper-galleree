@@ -38,10 +38,6 @@ const find = async (id) => {
     return gal;
 };
 
-const findByName = async(name) => {
-
-};
-
 const addpictureToGalree = async (id, filename) => {
     const gal = await find(id);
     if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
@@ -52,13 +48,26 @@ const addpictureToGalree = async (id, filename) => {
     return gal;
 };
 
-const getFilesData = async (id) => {
-    const gal = await find(id);
-    if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0)
-        return [];
+const ret = async (gal, cb) => {
+    if (!gal || !gal.files || !Array.isArray(gal.files) || gal.files.length === 0) {
+        cb([]);
+        return;
+    }
+    
     const files = await fileService.manyByName(gal.files);
     const filesData = await loadFilesUrls(files);
-    return filesData;
+    cb(filesData);
+};
+let unsub;
+const getFilesData = async (id, callback) => {
+    if (unsub) unsub();
+    const db = firebase.firestore();
+    const galRef = db.collection(collName).doc(id);
+    unsub = galRef.onSnapshot((snapshot) => {
+        const gal = snapshot.data();
+        gal._id = snapshot.id;
+        ret(gal, callback);
+    });
 };
 
 const loadFilesUrls = async (files) => {
