@@ -28,7 +28,6 @@
     };
     onMount(() => {
         currentFile.subscribe(val => {
-            console.log(val);
             if (val) {
                 console.log("loading");
                 loading = true;

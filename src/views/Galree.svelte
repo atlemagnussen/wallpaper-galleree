@@ -26,6 +26,10 @@
         deleteDialogState = false;
     }
 
+    let printFile = (file) => {
+        console.log(file);
+    };
+
 </script>
 
 <style>
@@ -84,6 +88,9 @@
                             <div slot="dlgContent" class="flex column menu-content">
                                 <div class="action">
                                     {file.name}
+                                </div>
+                                <div on:click={() => printFile(file)} class="action">
+                                    print?
                                 </div>
                                 <div on:click={() => showDeleteFileDialog(file)} class="action">
                                     delete?
