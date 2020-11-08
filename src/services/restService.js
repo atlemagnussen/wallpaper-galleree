@@ -25,7 +25,7 @@ const post = async (url, data) => {
     if (res.ok) {
         const json = await res.json();
         const dataString = JSON.stringify(json, null, 4);
-        this.result.value = dataString;
+        return dataString;
     } else {
         console.log("error");
         const error = {
@@ -34,7 +34,7 @@ const post = async (url, data) => {
         };
         error.statusText = await res.text();
         const errorString = JSON.stringify(error, null, 4);
-        this.result.value = errorString;
+        return errorString;
     }
 };
 

@@ -2,6 +2,7 @@
     export let param;
     import { userIsLoggedIn, currentFile, currentGallery } from "../store";
     import service from "../services/galreeService.js";
+    import print from "../services/printer.js";
     // import { onMount, onDestroy } from "svelte";
     import DialogDelete from "../components/DialogPrompt.svelte";
     import ButtonDialog from "../components/ButtonDialog.svelte";
@@ -27,7 +28,7 @@
     }
 
     let printFile = (file) => {
-        console.log(file);
+        print.image(file.url);
     };
 
 </script>
