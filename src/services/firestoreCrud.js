@@ -43,6 +43,33 @@ class FirestoreCrud {
         });
         return docsData;
     }
+    async getByPropInArray(colname, prop, arr) {
+        const chunks = this.chunkUp(arr, 10);
+        const docsData = [];
+
+        const db = firebase.firestore();
+        const colRef = db.collection(colname);
+        
+        for(let i = 0; i < chunks.length; i++) {
+            const chunk = chunks[i];
+            const docRefs = colRef.where(prop, "in", chunk); 
+            const docs = await docRefs.get();
+            
+            docs.forEach((d) => {
+                const doc = d.data();
+                const exists = docsData.some(dd => dd._id === d.id);
+                if (!exists) {
+                    doc._id = d.id;
+                    docsData.push(doc);
+                } else {
+                    console.log(`${d.id} already added!`);
+                }
+
+            });
+        }
+        
+        return docsData;
+    }
     async createOrUpdate(colname, data, id) {
         if (!data)
             throw new Error("No data to set");
@@ -73,6 +100,19 @@ class FirestoreCrud {
     async delete(colname, id) {
         const db = firebase.firestore();
         return await db.collection(colname).doc(id).delete();
+    }
+    chunkUp(inputArray, perChunk) {
+        return inputArray.reduce((resultArray, item, index) => { 
+            const chunkIndex = Math.floor(index/perChunk);
+
+            if (!resultArray[chunkIndex]) {
+                resultArray[chunkIndex] = [];
+            }
+
+            resultArray[chunkIndex].push(item);
+
+            return resultArray;
+        }, []);
     }
 }
 

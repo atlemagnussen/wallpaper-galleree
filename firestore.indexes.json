@@ -1,12 +1,4 @@
 {
-    "indexes": [
-        { 
-            "collectionGroup": "files",
-            "queryScope": "COLLECTION",
-            "fields": [
-                { "fieldPath": "name", "order": "DESCENDING" }
-            ]
-        }
-    ],
+    "indexes": [],
     "fieldOverrides": []
 }

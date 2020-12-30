@@ -46,16 +46,14 @@ const manyByPath = async (paths) => {
 };
 
 const manyByName = async (names) => {
-    let all = [];
+    let allPaths = [];
     for(let i = 0; i < names.length; i++) {
         let name = names[i];
         let path = `${storage.userFolder()}/${name}`;
-        let file = await findByPath(path);
-        if (file)
-            all.push(file);
+        allPaths.push(path);
     }
-    return all;
-    
+    const files = await crud.getByPropInArray("files", "path", allPaths);
+    return files;
 };
 
 const findByPath = async (path) => {
