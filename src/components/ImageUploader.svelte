@@ -21,9 +21,9 @@
 
         if (ev.dataTransfer.items) {
             for (let i = 0; i < ev.dataTransfer.items.length; i++) {
-                if (ev.dataTransfer.items[i].kind === 'file') {
+                if (ev.dataTransfer.items[i].kind === "file") {
                     let file = ev.dataTransfer.items[i].getAsFile();
-                    uploadFile(file)
+                    uploadFile(file);
                 }
             }
         } else {
@@ -41,7 +41,7 @@
     const onDragOver = (e) => {
         e.preventDefault();
         isDraggingOver = true;
-    }
+    };
     const onDragLeave = (e) => {
         e.preventDefault();
         isDraggingOver = false;
@@ -62,7 +62,7 @@
     const uploadFromInput = () => {
         const file = fileInput.files[0];
         uploadFile(file);
-    }
+    };
     const uploadFile = async (file) => {
         console.log(`${file.name} to be uploaded`);
         const uploadTask = service.uploadFile(galreeId, file.name, file);
@@ -82,7 +82,7 @@
             const url = await uploadTask.snapshot.ref.getDownloadURL();
             const sizeMb = (file.size / 1024) / 1024;
             const size = sizeMb.toFixed(2);
-            uploadedItems = [...uploadedItems, { name: file.name, size }];
+            uploadedItems = [...uploadedItems, { name: file.name, size, url }];
         });
     };
 </script>
