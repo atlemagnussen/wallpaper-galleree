@@ -55,8 +55,18 @@ const ret = async (gal, cb) => {
     }
     
     const files = await fileService.manyByName(gal.files);
-    const filesData = await loadFilesUrls(files);
-    cb(filesData);
+    files.forEach(async f => {
+        if (!f.url || !f.thumbnail) {
+            const { name } = f;
+            const url = await getFileUrl(name);
+            const thumbnail = await getFileUrl(name, "thumbnails");
+            f.url = url;
+            f.thumbnail = thumbnail;
+            fileService.setUrls(f, url, thumbnail);
+        }
+    });
+    // const filesData = await loadFilesUrls(files);
+    cb(files);
 };
 let unsub;
 const getFilesData = async (id, callback) => {

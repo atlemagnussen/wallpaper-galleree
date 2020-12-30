@@ -65,7 +65,14 @@ const findByPath = async (path) => {
     if (files.length === 1)
         return files[0];
     return files;
-    
+};
+
+const setUrls = async (f, url, thumbnail) => {
+    const file = await crud.get(collName, f._id);
+    file.url = url;
+    file.thumbnail = thumbnail;
+    const newFile = await crud.createOrUpdate(collName, file);
+    return newFile;
 };
 
 const addTag = async (id, tag) => {
@@ -86,5 +93,5 @@ const deleteByFileName = async (name) => {
     }
 };
 export default {
-    create, all, find, findByPath, deleteByFileName, addTag, manyByPath, manyByName
+    create, all, find, findByPath, deleteByFileName, addTag, manyByPath, manyByName, setUrls
 };

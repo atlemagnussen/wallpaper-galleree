@@ -36,13 +36,24 @@ exports.generateThumbnailOnUpload = async (object) => {
     try {
         await processing.genAndUploadThumbnail(bucketName, path, thumbnailPath)
         // const metadata = await processing.getMetaData(bucketName, path);
+        const url = getDownloadURL(bucketName, path);
         const { size, contentType, updated, md5Hash, generation } = object;
-        const file = { name, size, contentType, updated, md5Hash, generation, path, ownerId };
+        const file = { name, size, contentType, updated, md5Hash, generation, path, ownerId, url };
         await data.saveFile(file);
     } catch(ex) {
         console.log(ex);
     }
 };
+
+const getDownloadURL = async (bucketName, path) => {
+    const bucket = admin.storage().bucket(bucketName);
+    const file = bucket.file(path);
+    const exists = await file.exists();
+    if (!exists)
+        return "";
+    const url = await file.getDownloadURL();
+    return url;
+}
 
 exports.getThumbnail = async (req, res) => {
     cors.add(req, res);
